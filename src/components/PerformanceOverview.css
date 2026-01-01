@@ -1,0 +1,246 @@
+.performance-overview {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  background: var(--color-background);
+}
+
+.overview-top-section {
+  display: grid;
+  grid-template-columns: 400px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.kpis-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.kpi-card {
+  padding: 16px 20px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-md);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  position: relative;
+  transition: all 0.15s ease;
+}
+
+.kpi-card:hover {
+  border-color: var(--color-border);
+}
+
+.kpi-card.selected {
+  border-left: 4px solid var(--color-brand-primary);
+  padding-left: 17px;
+}
+
+.kpi-label {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  margin-bottom: 8px;
+}
+
+.kpi-value {
+  font-size: 32px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: 4px;
+  line-height: 1.2;
+}
+
+.kpi-change {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+.kpi-change.positive {
+  color: #056764;
+}
+
+.kpi-change.negative {
+  color: var(--color-error);
+}
+
+.kpi-change-value {
+  font-weight: 600;
+}
+
+.kpi-change-label {
+  color: var(--color-text-secondary);
+}
+
+.line-chart-container {
+  padding: 20px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-md);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  min-height: 350px;
+}
+
+.heatmap-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.heatmap-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0 0 4px 0;
+}
+
+.heatmap-container {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  overflow-x: auto;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.heatmap-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.heatmap-table th {
+  text-align: center;
+  padding: 12px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  background: transparent;
+}
+
+.heatmap-corner-cell {
+  min-width: 80px;
+}
+
+.heatmap-table td {
+  padding: 4px;
+}
+
+.heatmap-agent-name {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--color-brand-primary);
+  padding-right: 16px;
+  text-align: right;
+}
+
+.heatmap-cell {
+  min-width: 140px;
+  height: 56px;
+  position: relative;
+}
+
+.heatmap-cell-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.heatmap-1 {
+  background: #ff4444;
+}
+
+.heatmap-1 .heatmap-cell-text {
+  color: white;
+}
+
+.heatmap-2 {
+  background: #ffa366;
+}
+
+.heatmap-2 .heatmap-cell-text {
+  color: white;
+}
+
+.heatmap-3 {
+  background: #b3d9ff;
+}
+
+.heatmap-3 .heatmap-cell-text {
+  color: var(--color-text-primary);
+}
+
+.heatmap-4 {
+  background: #4992fe;
+}
+
+.heatmap-4 .heatmap-cell-text {
+  color: white;
+}
+
+.heatmap-5 {
+  background: #0250d9;
+}
+
+.heatmap-5 .heatmap-cell-text {
+  color: white;
+}
+
+.heatmap-na {
+  background: #e5e5e5;
+}
+
+.heatmap-na .heatmap-cell-text {
+  color: var(--color-text-secondary);
+}
+
+.heatmap-legend {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 20px;
+  padding-top: 16px;
+  flex-wrap: wrap;
+}
+
+.legend-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-right: 8px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--color-text-secondary);
+}
+
+.legend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.legend-color {
+  width: 20px;
+  height: 20px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+}
+
+@media (max-width: 1200px) {
+  .overview-top-section {
+    grid-template-columns: 1fr;
+  }
+}
+

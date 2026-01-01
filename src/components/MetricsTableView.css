@@ -1,0 +1,482 @@
+.metrics-table-view {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.metrics-table-container {
+  overflow-x: auto;
+}
+
+.metrics-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.metrics-table thead {
+  background: #fafafa;
+  border-bottom: 2px solid var(--color-border-light);
+}
+
+.metrics-table th {
+  padding: 10px 12px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--color-text-primary);
+  white-space: nowrap;
+  border-right: 1px solid var(--color-border-light);
+  line-height: 1.4;
+}
+
+.metrics-table th:last-child {
+  border-right: none;
+}
+
+.category-column {
+  min-width: 140px;
+}
+
+.metric-column {
+  min-width: 250px;
+}
+
+.week-column {
+  min-width: 120px;
+  text-align: center;
+}
+
+.total-column {
+  min-width: 140px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.metrics-table tbody tr {
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.metrics-table tbody tr:hover {
+  background: #fafafa;
+}
+
+.metrics-table td {
+  padding: 10px 12px;
+  color: var(--color-text-primary);
+  border-right: 1px solid var(--color-border-light);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.metrics-table td:last-child {
+  border-right: none;
+}
+
+.category-cell {
+  font-weight: 600;
+  background: #f9f9f9;
+  vertical-align: top;
+  padding-top: 12px;
+  font-size: 13px;
+}
+
+.category-first-row {
+  border-top: 2px solid var(--color-border-light);
+}
+
+.metric-cell {
+  font-weight: 400;
+  font-size: 13px;
+}
+
+.week-cell {
+  text-align: center;
+  color: var(--color-text-secondary);
+  font-size: 13px;
+}
+
+.total-cell {
+  text-align: center;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  font-size: 13px;
+}
+
+/* Score Card View */
+.scorecard-container {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.scorecard-view {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.scorecard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 16px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.scorecard-header-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+/* Customize Button */
+.customize-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: linear-gradient(135deg, #0176d3, #014486);
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(1, 118, 211, 0.3);
+}
+
+.customize-btn:hover {
+  background: linear-gradient(135deg, #014486, #032d60);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(1, 118, 211, 0.4);
+}
+
+.customize-btn:active {
+  transform: translateY(0);
+}
+
+/* Customize Panel Overlay */
+.customize-panel-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(2px);
+}
+
+/* Customize Panel */
+.customize-panel {
+  background: white;
+  border-radius: 12px;
+  width: 480px;
+  max-width: 90vw;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: slideIn 0.2s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.customize-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--color-border-light);
+  background: linear-gradient(135deg, #f8f9fa, #fff);
+}
+
+.customize-panel-header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.close-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: none;
+  border: none;
+  border-radius: 6px;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.close-btn:hover {
+  background: #f0f0f0;
+  color: var(--color-text-primary);
+}
+
+/* Customize Sections */
+.customize-section {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.customize-section:last-of-type {
+  border-bottom: none;
+}
+
+.customize-section h4 {
+  margin: 0 0 16px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+/* Chart Type Options */
+.chart-type-options {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.chart-type-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 10px;
+  background: #f8f9fa;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: var(--color-text-secondary);
+}
+
+.chart-type-btn:hover {
+  background: #eef3f8;
+  border-color: #c9d6e3;
+}
+
+.chart-type-btn.active {
+  background: #e8f4fd;
+  border-color: #0176d3;
+  color: #0176d3;
+}
+
+.chart-type-btn span {
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* Metrics Checkboxes */
+.metrics-checkboxes {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.metric-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.metric-checkbox:hover {
+  background: #eef3f8;
+}
+
+.metric-checkbox input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #0176d3;
+  cursor: pointer;
+}
+
+.checkbox-label {
+  font-size: 13px;
+  color: var(--color-text-primary);
+  font-weight: 400;
+}
+
+/* Calculation Options */
+.calculation-options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.calculation-radio {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.calculation-radio:hover {
+  background: #eef3f8;
+}
+
+.calculation-radio input[type="radio"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #0176d3;
+  cursor: pointer;
+}
+
+.calculation-radio span {
+  font-size: 13px;
+  color: var(--color-text-primary);
+  font-weight: 400;
+}
+
+/* Panel Footer */
+.customize-panel-footer {
+  padding: 16px 24px 20px;
+  background: linear-gradient(135deg, #f8f9fa, #fff);
+}
+
+.apply-btn {
+  width: 100%;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, #0176d3, #014486);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(1, 118, 211, 0.3);
+}
+
+.apply-btn:hover {
+  background: linear-gradient(135deg, #014486, #032d60);
+  box-shadow: 0 4px 12px rgba(1, 118, 211, 0.4);
+}
+
+/* Chart Wrapper */
+.chart-wrapper {
+  padding: 20px 0;
+}
+
+.pie-chart-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.scorecard-chart-container {
+  padding-top: 12px;
+  position: relative;
+}
+
+.scorecard-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 12px 0;
+  min-height: 44px;
+  border-bottom: 1px solid #f5f5f5;
+}
+
+.scorecard-row:last-of-type {
+  border-bottom: none;
+}
+
+.scorecard-label {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--color-brand-primary);
+  min-width: 180px;
+  text-align: right;
+  padding-right: 20px;
+}
+
+.scorecard-bar-wrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  position: relative;
+  padding-right: 20px;
+}
+
+.scorecard-bar-track {
+  flex: 1;
+  height: 36px;
+  background: #f8f8f8;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.scorecard-bar-fill {
+  height: 100%;
+  transition: width 0.5s ease;
+  border-radius: 4px 0 0 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.scorecard-value-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  white-space: nowrap;
+  min-width: 140px;
+  text-align: left;
+}
+
+.scorecard-axis {
+  display: flex;
+  justify-content: space-between;
+  padding-left: 200px;
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 2px solid var(--color-border-light);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+}
+
+@media (max-width: 1200px) {
+  .metrics-table-container {
+    overflow-x: scroll;
+  }
+  
+  .metrics-table {
+    min-width: 900px;
+  }
+}
+

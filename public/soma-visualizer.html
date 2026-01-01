@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SOMA Swarm Visualizer</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* SOMA Swarm Visualizer - Cyberpunk Terminal Aesthetic */
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+
+    @keyframes glow {
+      0%, 100% { box-shadow: 0 0 5px currentColor, 0 0 10px currentColor; }
+      50% { box-shadow: 0 0 15px currentColor, 0 0 25px currentColor; }
+    }
+
+    @keyframes flowRight {
+      0% { transform: translateX(-100%); opacity: 0; }
+      50% { opacity: 1; }
+      100% { transform: translateX(100%); opacity: 0; }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .soma-visualizer {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0a0e17 0%, #1a1f2e 50%, #0d1321 100%);
+      padding: 40px;
+      font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', monospace;
+      color: #e0e6ed;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    .soma-visualizer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: 
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 2px,
+          rgba(0, 255, 136, 0.03) 2px,
+          rgba(0, 255, 136, 0.03) 4px
+        );
+      pointer-events: none;
+    }
+
+    .soma-header {
+      text-align: center;
+      margin-bottom: 50px;
+      position: relative;
+    }
+
+    .soma-title {
+      font-size: 42px;
+      font-weight: 700;
+      background: linear-gradient(90deg, #00ff88, #00d4ff, #ff00aa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .soma-subtitle {
+      font-size: 14px;
+      color: #6b7a8f;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .soma-grid {
+      display: grid;
+      grid-template-columns: 1fr 120px 1fr 120px 1fr;
+      gap: 20px;
+      align-items: center;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 1200px) {
+      .soma-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+      .flow-connector {
+        transform: rotate(90deg);
+        margin: 10px auto;
+      }
+    }
+
+    /* Panel Styles */
+    .soma-panel {
+      background: rgba(15, 20, 30, 0.9);
+      border: 1px solid rgba(0, 255, 136, 0.2);
+      border-radius: 12px;
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .soma-panel::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #00ff88, #00d4ff);
+    }
+
+    .panel-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid rgba(0, 255, 136, 0.1);
+    }
+
+    .panel-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .panel-icon.stream { background: rgba(0, 212, 255, 0.2); }
+    .panel-icon.worker { background: rgba(255, 170, 0, 0.2); }
+    .panel-icon.results { background: rgba(255, 0, 136, 0.2); }
+
+    .panel-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #a0aec0;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+
+    /* Log Stream Panel */
+    .log-stream {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .log-entry {
+      padding: 10px 14px;
+      border-radius: 6px;
+      font-size: 11px;
+      line-height: 1.5;
+      border-left: 3px solid;
+      background: rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
+      animation: fadeInUp 0.5s ease forwards;
+      opacity: 0;
+    }
+
+    .log-entry:nth-child(1) { animation-delay: 0.1s; }
+    .log-entry:nth-child(2) { animation-delay: 0.2s; }
+    .log-entry:nth-child(3) { animation-delay: 0.3s; }
+    .log-entry:nth-child(4) { animation-delay: 0.4s; }
+    .log-entry:nth-child(5) { animation-delay: 0.5s; }
+    .log-entry:nth-child(6) { animation-delay: 0.6s; }
+
+    .log-entry.info {
+      border-color: #00d4ff;
+      color: #7dd3fc;
+    }
+
+    .log-entry.warn {
+      border-color: #fbbf24;
+      color: #fcd34d;
+    }
+
+    .log-entry.error {
+      border-color: #f87171;
+      color: #fca5a5;
+      background: rgba(248, 113, 113, 0.1);
+    }
+
+    .log-entry.critical {
+      border-color: #ff0055;
+      color: #ff6b9d;
+      background: rgba(255, 0, 85, 0.15);
+      animation: pulse 2s ease-in-out infinite, fadeInUp 0.5s ease forwards;
+    }
+
+    .log-timestamp {
+      color: #4b5563;
+      margin-right: 8px;
+    }
+
+    .log-level {
+      font-weight: 700;
+      margin-right: 6px;
+    }
+
+    /* Flow Arrows */
+    .flow-connector {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .flow-arrow {
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(90deg, #00ff88, #00d4ff);
+      border-radius: 2px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .flow-arrow::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 30px;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, white, transparent);
+      animation: flowRight 1.5s ease-in-out infinite;
+    }
+
+    .flow-arrow-head {
+      width: 0;
+      height: 0;
+      border-top: 8px solid transparent;
+      border-bottom: 8px solid transparent;
+      border-left: 12px solid #00d4ff;
+    }
+
+    .flow-label {
+      font-size: 9px;
+      color: #6b7a8f;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Worker Panel */
+    .worker-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .worker-batch {
+      background: rgba(255, 170, 0, 0.05);
+      border: 1px solid rgba(255, 170, 0, 0.3);
+      border-radius: 8px;
+      padding: 14px;
+      animation: fadeInUp 0.5s ease forwards;
+      opacity: 0;
+    }
+
+    .worker-batch:nth-child(1) { animation-delay: 0.8s; }
+    .worker-batch:nth-child(2) { animation-delay: 1.0s; }
+    .worker-batch:nth-child(3) { animation-delay: 1.2s; }
+
+    .worker-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .worker-indicator {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #00ff88;
+      animation: glow 2s ease-in-out infinite;
+    }
+
+    .worker-indicator.processing {
+      background: #fbbf24;
+    }
+
+    .worker-name {
+      font-size: 11px;
+      font-weight: 600;
+      color: #fbbf24;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .worker-logs {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .worker-log-item {
+      font-size: 10px;
+      color: #9ca3af;
+      padding: 4px 8px;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .worker-log-item.flagged {
+      color: #f87171;
+      background: rgba(248, 113, 113, 0.1);
+      border-left: 2px solid #f87171;
+    }
+
+    .worker-log-item.critical-flag {
+      color: #ff0055;
+      background: rgba(255, 0, 85, 0.15);
+      border-left: 2px solid #ff0055;
+    }
+
+    /* Results Panel */
+    .results-summary {
+      margin-bottom: 24px;
+    }
+
+    .stat-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: #6b7a8f;
+    }
+
+    .stat-value {
+      font-size: 14px;
+      font-weight: 700;
+      color: #00ff88;
+    }
+
+    .stat-value.warning {
+      color: #fbbf24;
+    }
+
+    .stat-value.danger {
+      color: #ff0055;
+    }
+
+    .flagged-items {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .flagged-item {
+      padding: 14px;
+      border-radius: 8px;
+      font-size: 11px;
+      line-height: 1.6;
+      animation: fadeInUp 0.5s ease forwards;
+      opacity: 0;
+    }
+
+    .flagged-item:nth-child(1) { animation-delay: 1.5s; }
+    .flagged-item:nth-child(2) { animation-delay: 1.7s; }
+
+    .flagged-item.warning-flag {
+      background: rgba(251, 191, 36, 0.1);
+      border: 1px solid rgba(251, 191, 36, 0.3);
+      color: #fcd34d;
+    }
+
+    .flagged-item.critical-flag {
+      background: rgba(255, 0, 85, 0.15);
+      border: 1px solid rgba(255, 0, 85, 0.4);
+      color: #ff6b9d;
+      animation: pulse 2s ease-in-out infinite, fadeInUp 0.5s ease forwards;
+    }
+
+    .flag-badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+
+    .flag-badge.warning { background: rgba(251, 191, 36, 0.3); }
+    .flag-badge.critical { background: rgba(255, 0, 85, 0.3); }
+
+    /* Status Footer */
+    .status-footer {
+      margin-top: 50px;
+      text-align: center;
+    }
+
+    .status-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 32px;
+      background: rgba(0, 255, 136, 0.1);
+      border: 1px solid rgba(0, 255, 136, 0.3);
+      border-radius: 50px;
+      animation: fadeInUp 0.5s ease forwards;
+      animation-delay: 2s;
+      opacity: 0;
+    }
+
+    .status-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #00ff88;
+      animation: glow 2s ease-in-out infinite;
+    }
+
+    .status-text {
+      font-size: 13px;
+      font-weight: 600;
+      color: #00ff88;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    /* Architecture Diagram */
+    .architecture-section {
+      margin-top: 60px;
+      padding: 40px;
+      background: rgba(15, 20, 30, 0.6);
+      border-radius: 16px;
+      border: 1px solid rgba(0, 255, 136, 0.1);
+      max-width: 1400px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .architecture-title {
+      text-align: center;
+      font-size: 16px;
+      color: #a0aec0;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      margin-bottom: 40px;
+    }
+
+    .architecture-flow {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+
+    .arch-node {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .arch-box {
+      width: 120px;
+      height: 80px;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .arch-box:hover {
+      transform: translateY(-5px);
+    }
+
+    .arch-box.stream {
+      background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(0, 212, 255, 0.05));
+      border: 1px solid rgba(0, 212, 255, 0.4);
+    }
+
+    .arch-box.manager {
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.2), rgba(168, 85, 247, 0.05));
+      border: 1px solid rgba(168, 85, 247, 0.4);
+    }
+
+    .arch-box.worker {
+      background: linear-gradient(135deg, rgba(251, 191, 36, 0.2), rgba(251, 191, 36, 0.05));
+      border: 1px solid rgba(251, 191, 36, 0.4);
+    }
+
+    .arch-box.inbox {
+      background: linear-gradient(135deg, rgba(0, 255, 136, 0.2), rgba(0, 255, 136, 0.05));
+      border: 1px solid rgba(0, 255, 136, 0.4);
+    }
+
+    .arch-box.output {
+      background: linear-gradient(135deg, rgba(255, 0, 136, 0.2), rgba(255, 0, 136, 0.05));
+      border: 1px solid rgba(255, 0, 136, 0.4);
+    }
+
+    .arch-icon {
+      font-size: 24px;
+    }
+
+    .arch-label {
+      font-size: 10px;
+      color: #a0aec0;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .arch-arrow {
+      color: #4b5563;
+      font-size: 24px;
+    }
+
+    .worker-group {
+      display: flex;
+      gap: 15px;
+    }
+
+    .worker-group .arch-box {
+      width: 80px;
+      height: 60px;
+    }
+
+    .worker-group .arch-icon {
+      font-size: 18px;
+    }
+
+    /* Console Output Section */
+    .console-section {
+      margin-top: 60px;
+      max-width: 1400px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .console-title {
+      font-size: 14px;
+      color: #6b7a8f;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 20px;
+    }
+
+    .console-output {
+      background: #0a0e14;
+      border: 1px solid #1e2633;
+      border-radius: 8px;
+      padding: 20px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      line-height: 1.8;
+      overflow-x: auto;
+    }
+
+    .console-line {
+      margin-bottom: 4px;
+    }
+
+    .console-line.header {
+      color: #00ff88;
+      font-weight: 700;
+    }
+
+    .console-line.manager {
+      color: #a855f7;
+    }
+
+    .console-line.worker {
+      color: #fbbf24;
+    }
+
+    .console-line.result {
+      color: #00d4ff;
+    }
+
+    .console-line.flag {
+      color: #f87171;
+    }
+
+    .console-line.critical-line {
+      color: #ff0055;
+    }
+  </style>
+</head>
+<body>
+  <div class="soma-visualizer">
+    <!-- Header -->
+    <header class="soma-header">
+      <h1 class="soma-title">SOMA Swarm</h1>
+      <p class="soma-subtitle">Stream-Oriented Multi-Agent Pattern Visualization</p>
+    </header>
+
+    <!-- Main Grid -->
+    <div class="soma-grid">
+      <!-- Input Stream Panel -->
+      <div class="soma-panel">
+        <div class="panel-header">
+          <div class="panel-icon stream">📥</div>
+          <span class="panel-title">Raw Log Stream</span>
+        </div>
+        <div class="log-stream">
+          <div class="log-entry info">
+            <span class="log-timestamp">2023-10-27</span>
+            <span class="log-level">INFO:</span>
+            User login success
+          </div>
+          <div class="log-entry warn">
+            <span class="log-timestamp">2023-10-27</span>
+            <span class="log-level">WARN:</span>
+            High memory usage
+          </div>
+          <div class="log-entry error">
+            <span class="log-timestamp">2023-10-27</span>
+            <span class="log-level">ERROR:</span>
+            UNAUTHORIZED_ACCESS from IP 192.168...
+          </div>
+          <div class="log-entry info">
+            <span class="log-timestamp">2023-10-27</span>
+            <span class="log-level">INFO:</span>
+            User logout
+          </div>
+          <div class="log-entry critical">
+            <span class="log-timestamp">2023-10-27</span>
+            <span class="log-level">CRITICAL:</span>
+            ROOT_SHELL spawned by unknown user
+          </div>
+          <div class="log-entry info">
+            <span class="log-timestamp">2023-10-27</span>
+            <span class="log-level">INFO:</span>
+            Backup started
+          </div>
+        </div>
+      </div>
+
+      <!-- Flow Connector 1 -->
+      <div class="flow-connector">
+        <div class="flow-arrow"></div>
+        <div class="flow-arrow-head"></div>
+        <span class="flow-label">Shard</span>
+      </div>
+
+      <!-- Worker Panel -->
+      <div class="soma-panel">
+        <div class="panel-header">
+          <div class="panel-icon worker">⚙️</div>
+          <span class="panel-title">Parallel Workers</span>
+        </div>
+        <div class="worker-grid">
+          <div class="worker-batch">
+            <div class="worker-header">
+              <div class="worker-indicator processing"></div>
+              <span class="worker-name">Worker #1</span>
+            </div>
+            <div class="worker-logs">
+              <div class="worker-log-item">User login success</div>
+              <div class="worker-log-item">High memory usage</div>
+            </div>
+          </div>
+          <div class="worker-batch">
+            <div class="worker-header">
+              <div class="worker-indicator processing"></div>
+              <span class="worker-name">Worker #2</span>
+            </div>
+            <div class="worker-logs">
+              <div class="worker-log-item flagged">UNAUTHORIZED_ACCESS...</div>
+              <div class="worker-log-item">User logout</div>
+            </div>
+          </div>
+          <div class="worker-batch">
+            <div class="worker-header">
+              <div class="worker-indicator processing"></div>
+              <span class="worker-name">Worker #3</span>
+            </div>
+            <div class="worker-logs">
+              <div class="worker-log-item critical-flag">ROOT_SHELL spawned...</div>
+              <div class="worker-log-item">Backup started</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Flow Connector 2 -->
+      <div class="flow-connector">
+        <div class="flow-arrow"></div>
+        <div class="flow-arrow-head"></div>
+        <span class="flow-label">Aggregate</span>
+      </div>
+
+      <!-- Results Panel -->
+      <div class="soma-panel">
+        <div class="panel-header">
+          <div class="panel-icon results">🎯</div>
+          <span class="panel-title">Flagged Events</span>
+        </div>
+        
+        <div class="results-summary">
+          <div class="stat-row">
+            <span class="stat-label">Total Logs Processed</span>
+            <span class="stat-value">6</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Worker Batches</span>
+            <span class="stat-value warning">3</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Anomalies Detected</span>
+            <span class="stat-value danger">2</span>
+          </div>
+        </div>
+
+        <div class="flagged-items">
+          <div class="flagged-item warning-flag">
+            <span class="flag-badge warning">FLAGGED</span>
+            <div>UNAUTHORIZED_ACCESS from IP 192.168...</div>
+          </div>
+          <div class="flagged-item critical-flag">
+            <span class="flag-badge critical">CRITICAL</span>
+            <div>ROOT_SHELL spawned by unknown user</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Status Footer -->
+    <div class="status-footer">
+      <div class="status-indicator">
+        <div class="status-dot"></div>
+        <span class="status-text">Processing Complete</span>
+      </div>
+    </div>
+
+    <!-- Architecture Diagram -->
+    <section class="architecture-section">
+      <h2 class="architecture-title">SOMA Pattern Architecture</h2>
+      <div class="architecture-flow">
+        <div class="arch-node">
+          <div class="arch-box stream">
+            <span class="arch-icon">📊</span>
+            <span class="arch-label">Stream</span>
+          </div>
+        </div>
+        
+        <span class="arch-arrow">→</span>
+        
+        <div class="arch-node">
+          <div class="arch-box manager">
+            <span class="arch-icon">🧠</span>
+            <span class="arch-label">Manager</span>
+          </div>
+        </div>
+        
+        <span class="arch-arrow">→</span>
+        
+        <div class="worker-group">
+          <div class="arch-box worker">
+            <span class="arch-icon">🐝</span>
+            <span class="arch-label">W1</span>
+          </div>
+          <div class="arch-box worker">
+            <span class="arch-icon">🐝</span>
+            <span class="arch-label">W2</span>
+          </div>
+          <div class="arch-box worker">
+            <span class="arch-icon">🐝</span>
+            <span class="arch-label">W3</span>
+          </div>
+        </div>
+        
+        <span class="arch-arrow">→</span>
+        
+        <div class="arch-node">
+          <div class="arch-box inbox">
+            <span class="arch-icon">📬</span>
+            <span class="arch-label">Inbox</span>
+          </div>
+        </div>
+        
+        <span class="arch-arrow">→</span>
+        
+        <div class="arch-node">
+          <div class="arch-box output">
+            <span class="arch-icon">📋</span>
+            <span class="arch-label">Report</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Console Output -->
+    <section class="console-section">
+      <h3 class="console-title">📟 Python Script Output</h3>
+      <div class="console-output">
+        <div class="console-line header">>>> STARTING SOMA SWARM <<<</div>
+        <div class="console-line manager">--- [Manager] Distributing Stream ---</div>
+        <div class="console-line worker">--- [Worker] Processing batch of 2 logs ---</div>
+        <div class="console-line worker">--- [Worker] Processing batch of 2 logs ---</div>
+        <div class="console-line worker">--- [Worker] Processing batch of 2 logs ---</div>
+        <div class="console-line"></div>
+        <div class="console-line header">>>> FINAL REPORT <<<</div>
+        <div class="console-line result">Total Logs Processed: 6</div>
+        <div class="console-line result">Anomalies Found: 2</div>
+        <div class="console-line flag"> -> FLAGGED: 2023-10-27 ERROR: UNAUTHORIZED_ACCESS from IP 192.168...</div>
+        <div class="console-line critical-line"> -> CRITICAL: 2023-10-27 CRITICAL: ROOT_SHELL spawned by unknown user</div>
+      </div>
+    </section>
+  </div>
+</body>
+</html>
+

@@ -1,0 +1,192 @@
+.metric-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  transition: box-shadow 0.2s ease;
+}
+
+.metric-card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+/* Header */
+.metric-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  position: relative;
+}
+
+.metric-title-block {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-right: 40px;
+}
+
+.metric-card-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0;
+  line-height: 1.375;
+}
+
+.metric-card-period {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--color-text-secondary);
+  line-height: 1.4167;
+}
+
+.metric-menu-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.metric-menu-button:hover {
+  background: var(--color-header);
+  border-color: var(--color-text-secondary);
+}
+
+/* Value Block */
+.metric-value-block {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.metric-value-display {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.metric-main-value {
+  font-size: 32px;
+  font-weight: 400;
+  color: var(--color-text-primary);
+  line-height: 1.25;
+}
+
+.metric-value-suffix {
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--color-text-secondary);
+}
+
+.metric-change-display {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.metric-change-value {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.metric-change-display.positive .metric-change-value {
+  color: var(--color-success);
+}
+
+.metric-change-display.negative .metric-change-value {
+  color: var(--color-error);
+}
+
+.metric-change-display.neutral .metric-change-value {
+  color: var(--color-text-secondary);
+}
+
+.metric-change-label {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+}
+
+/* Chart Block */
+.metric-chart-block {
+  display: flex;
+  align-items: stretch;
+  gap: 4px;
+}
+
+.chart-y-labels {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0 8px 22px 0;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--color-text-primary);
+  line-height: 1.385;
+  min-width: 40px;
+  text-align: right;
+}
+
+.chart-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.chart-x-labels {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 4px;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--color-text-primary);
+  line-height: 1.385;
+}
+
+.chart-current-value {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 4px;
+  padding: 0 0 30px;
+  min-width: 40px;
+}
+
+.current-value-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--color-chart-blue);
+  border-radius: 50%;
+}
+
+.current-value-label {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--color-text-primary);
+  line-height: 1;
+}
+
+/* Description */
+.metric-card-description {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--color-text-primary);
+  line-height: 1.385;
+  margin: 0;
+}

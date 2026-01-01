@@ -1,0 +1,444 @@
+/* FedEx UX Findings - Purple/Orange Theme */
+
+.fedex-ux-container {
+  width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(145deg, #0f0a1a 0%, #1a0f25 50%, #0d0a15 100%);
+  padding: 3rem 2rem;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.fedex-ux-container::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(ellipse at 20% 30%, rgba(124, 58, 237, 0.08) 0%, transparent 40%),
+    radial-gradient(ellipse at 80% 70%, rgba(249, 115, 22, 0.06) 0%, transparent 40%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.fedex-ux-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  position: relative;
+  z-index: 1;
+}
+
+.fedex-ux-header .header-badge {
+  display: inline-block;
+  padding: 0.5rem 1.25rem;
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.2), rgba(249, 115, 22, 0.15));
+  border: 1px solid rgba(124, 58, 237, 0.3);
+  border-radius: 100px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.875rem;
+  color: #c084fc;
+  margin-bottom: 1.5rem;
+}
+
+.fedex-ux-title {
+  font-family: 'Sora', sans-serif;
+  font-size: 3.5rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #ffffff 0%, #c084fc 40%, #fb923c 80%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.02em;
+}
+
+.fedex-ux-subtitle {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.125rem;
+  color: #94a3b8;
+}
+
+.fedex-ux-date {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.875rem;
+  color: #64748b;
+  margin-top: 0.5rem;
+}
+
+/* Footer */
+.fedex-ux-footer {
+  margin-top: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+.fedex-ux-footer .footer-content {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: rgba(30, 41, 59, 0.5);
+  border: 1px solid rgba(71, 85, 105, 0.3);
+  border-radius: 100px;
+}
+
+.fedex-ux-footer .footer-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+.fedex-ux-footer .footer-value {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  color: #94a3b8;
+}
+
+.fedex-ux-footer .workflow-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.15), rgba(168, 85, 247, 0.1));
+  border: 1px solid rgba(124, 58, 237, 0.3);
+  border-radius: 100px;
+  color: #c084fc;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.fedex-ux-footer .workflow-link:hover {
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.25), rgba(168, 85, 247, 0.2));
+  transform: translateX(5px);
+  border-color: rgba(124, 58, 237, 0.5);
+}
+
+.fedex-ux-footer .workflow-link:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.2);
+}
+
+/* FedEx specific styles only */
+
+/* Tab Navigation */
+.findings-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 3rem;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
+}
+
+.findings-tab {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.5rem;
+  background: rgba(30, 41, 59, 0.6);
+  border: 1px solid rgba(71, 85, 105, 0.3);
+  border-radius: 12px;
+  color: #94a3b8;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.findings-tab:hover {
+  background: rgba(51, 65, 85, 0.7);
+  border-color: rgba(124, 58, 237, 0.4);
+}
+
+.findings-tab.active {
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.2), rgba(168, 85, 247, 0.15));
+  border-color: rgba(124, 58, 237, 0.5);
+  color: #c084fc;
+}
+
+.tab-panel {
+  position: relative;
+  z-index: 1;
+}
+
+/* Grid Layouts */
+.pain-points-grid,
+.desired-features-grid,
+.insights-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+/* Card Styles */
+.pain-card,
+.feature-card,
+.insight-card {
+  background: linear-gradient(145deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.9));
+  border: 1px solid rgba(71, 85, 105, 0.4);
+  border-radius: 16px;
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(20px);
+}
+
+.pain-card:hover,
+.feature-card:hover,
+.insight-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(124, 58, 237, 0.5);
+}
+
+.pain-card:focus,
+.feature-card:focus,
+.insight-card:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.3);
+}
+
+.pain-card.expanded,
+.feature-card.expanded,
+.insight-card.expanded {
+  border-color: rgba(124, 58, 237, 0.6);
+}
+
+/* Card Headers */
+.pain-card-header,
+.feature-card-header,
+.insight-card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.pain-icon,
+.feature-icon,
+.insight-icon-wrap {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.pain-title-section,
+.feature-title-section,
+.insight-content-section {
+  flex: 1;
+  min-width: 0;
+}
+
+.pain-card-header h3,
+.feature-card-header h3,
+.insight-card-header h3 {
+  font-family: 'Sora', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #f1f5f9;
+  margin-bottom: 0.5rem;
+}
+
+.expand-toggle {
+  color: #64748b;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+/* Severity/Priority Tags */
+.severity-tag,
+.priority-tag {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 100px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  margin-top: 0.5rem;
+}
+
+.severity-critical { background: rgba(239, 68, 68, 0.15); color: #fb7185; }
+.severity-high { background: rgba(249, 115, 22, 0.15); color: #fb923c; }
+.severity-medium { background: rgba(59, 130, 246, 0.15); color: #60a5fa; }
+
+.priority-critical { background: rgba(239, 68, 68, 0.15); color: #fb7185; }
+.priority-must { background: rgba(249, 115, 22, 0.15); color: #fb923c; }
+.priority-high { background: rgba(59, 130, 246, 0.15); color: #60a5fa; }
+
+/* Icon Backgrounds */
+.severity-critical .pain-icon { background: rgba(239, 68, 68, 0.2); color: #fb7185; }
+.severity-high .pain-icon { background: rgba(249, 115, 22, 0.2); color: #fb923c; }
+.severity-medium .pain-icon { background: rgba(59, 130, 246, 0.2); color: #60a5fa; }
+
+.priority-critical .feature-icon { background: rgba(239, 68, 68, 0.2); color: #fb7185; }
+.priority-must .feature-icon { background: rgba(249, 115, 22, 0.2); color: #fb923c; }
+.priority-high .feature-icon { background: rgba(59, 130, 246, 0.2); color: #60a5fa; }
+
+/* Quotes and Sources */
+.pain-quote,
+.feature-quote,
+.insight-quote {
+  display: flex;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: rgba(30, 41, 59, 0.6);
+  border-left: 3px solid #c084fc;
+  border-radius: 0 8px 8px 0;
+  margin: 1rem 0;
+}
+
+.pain-quote svg,
+.feature-quote svg,
+.insight-quote svg {
+  color: #c084fc;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.pain-quote span,
+.feature-quote span,
+.insight-quote span {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  color: #94a3b8;
+  font-style: italic;
+  line-height: 1.5;
+}
+
+.pain-source,
+.feature-source,
+.insight-source {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: #64748b;
+  margin-top: 0.5rem;
+}
+
+/* Expanded Details */
+.pain-details,
+.feature-details,
+.insight-expanded {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(71, 85, 105, 0.3);
+}
+
+.impact-section,
+.symptoms-section,
+.rationale-section,
+.benefits-section,
+.insight-detail,
+.insight-significance {
+  margin-bottom: 1.25rem;
+}
+
+.impact-section h4,
+.symptoms-section h4,
+.rationale-section h4,
+.benefits-section h4,
+.insight-detail h4,
+.insight-significance h4 {
+  font-family: 'Sora', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #e2e8f0;
+  margin-bottom: 0.75rem;
+}
+
+.impact-section p,
+.symptoms-section p,
+.rationale-section p,
+.benefits-section p,
+.insight-detail p,
+.insight-significance p {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  color: #cbd5e1;
+  line-height: 1.5;
+}
+
+.symptoms-section ul,
+.benefits-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.symptoms-section li,
+.benefits-section li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.5rem 0;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  color: #cbd5e1;
+  line-height: 1.4;
+}
+
+.symptoms-section li svg,
+.benefits-section li svg {
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.symptoms-section li svg { color: #fb7185; }
+.benefits-section li svg { color: #34d399; }
+
+/* Insight Types */
+.insight-type-label {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 100px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.context .insight-type-label { background: rgba(59, 130, 246, 0.15); color: #60a5fa; }
+.strategy .insight-type-label { background: rgba(124, 58, 237, 0.15); color: #c084fc; }
+.process .insight-type-label { background: rgba(16, 185, 129, 0.15); color: #34d399; }
+
+.context .insight-icon-wrap { background: rgba(59, 130, 246, 0.2); color: #60a5fa; }
+.strategy .insight-icon-wrap { background: rgba(124, 58, 237, 0.2); color: #c084fc; }
+.process .insight-icon-wrap { background: rgba(16, 185, 129, 0.2); color: #34d399; }
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .pain-points-grid,
+  .desired-features-grid,
+  .insights-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .fedex-ux-container {
+    padding: 2rem 1rem;
+  }
+  
+  .fedex-ux-title {
+    font-size: 2.25rem;
+  }
+}
+

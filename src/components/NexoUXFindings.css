@@ -1,0 +1,185 @@
+/* Nexo UX Findings - Purple/Crypto Theme */
+
+.nexo-ux-container {
+  width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(145deg, #0d0a1f 0%, #1a0f2e 50%, #0f0b1d 100%);
+  padding: 3rem 2rem;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.nexo-ux-container::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(ellipse at 15% 25%, rgba(139, 92, 246, 0.07) 0%, transparent 45%),
+    radial-gradient(ellipse at 85% 75%, rgba(236, 72, 153, 0.05) 0%, transparent 45%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Header */
+.nexo-ux-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  position: relative;
+  z-index: 1;
+}
+
+.nexo-ux-title {
+  font-family: 'Sora', sans-serif;
+  font-size: 3rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #ffffff 0%, #a78bfa 50%, #ec4899 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.02em;
+}
+
+.nexo-ux-subtitle {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.125rem;
+  color: #94a3b8;
+  font-weight: 400;
+  margin-bottom: 1.25rem;
+}
+
+/* Deal-breaker priority */
+.priority-tag.priority-dealbreaker {
+  background: rgba(236, 72, 153, 0.2);
+  color: #f9a8d4;
+  border: 1px solid rgba(236, 72, 153, 0.3);
+}
+
+.feature-wish-icon.priority-dealbreaker {
+  background: rgba(236, 72, 153, 0.15);
+  color: #f9a8d4;
+  border: 1px solid rgba(236, 72, 153, 0.3);
+}
+
+.priority-tag.priority-critical {
+  background: rgba(139, 92, 246, 0.2);
+  color: #a78bfa;
+  border: 1px solid rgba(139, 92, 246, 0.3);
+}
+
+.feature-wish-icon.priority-critical {
+  background: rgba(139, 92, 246, 0.15);
+  color: #a78bfa;
+  border: 1px solid rgba(139, 92, 246, 0.3);
+}
+
+/* Insight types */
+.insight-icon-wrap.critical {
+  background: rgba(236, 72, 153, 0.15);
+  color: #f9a8d4;
+  border: 1px solid rgba(236, 72, 153, 0.3);
+}
+
+.insight-type-label.critical {
+  background: rgba(236, 72, 153, 0.2);
+  color: #f9a8d4;
+}
+
+/* Footer */
+.nexo-ux-footer {
+  margin-top: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+.footer-content {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: rgba(30, 41, 59, 0.5);
+  border: 1px solid rgba(71, 85, 105, 0.3);
+  border-radius: 100px;
+  backdrop-filter: blur(10px);
+}
+
+.footer-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+.footer-value {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  color: #94a3b8;
+}
+
+.workflow-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(168, 85, 247, 0.1));
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  border-radius: 100px;
+  color: #a78bfa;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.workflow-link:hover {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.25), rgba(168, 85, 247, 0.2));
+  transform: translateX(5px);
+  border-color: rgba(139, 92, 246, 0.5);
+}
+
+.workflow-link:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+}
+
+.workflow-link svg:last-child {
+  transition: transform 0.3s ease;
+}
+
+.workflow-link:hover svg:last-child {
+  transform: translateX(3px);
+}
+
+/* Import other styles from CellebriteUXFindings.css */
+@import url('./CellebriteUXFindings.css');
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .nexo-ux-container {
+    padding: 2rem 1rem;
+  }
+  
+  .nexo-ux-title {
+    font-size: 2rem;
+  }
+  
+  .nexo-ux-footer {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .footer-content,
+  .workflow-link {
+    justify-content: center;
+  }
+}
+

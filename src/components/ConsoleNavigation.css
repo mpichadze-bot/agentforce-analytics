@@ -1,0 +1,84 @@
+.console-navigation {
+  display: flex;
+  align-items: stretch;
+  height: 40px;
+  padding: 4px 0;
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
+}
+
+.nav-app-name {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 24px 0 16px;
+  height: 32px;
+}
+
+.waffle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  background: none;
+  border: none;
+  color: var(--color-text-tertiary);
+  cursor: pointer;
+}
+
+.app-title {
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--color-text-navy);
+  white-space: nowrap;
+}
+
+.nav-divider {
+  width: 1px;
+  height: 32px;
+  background: var(--color-border);
+  margin: 0 4px;
+}
+
+.nav-tabs {
+  display: flex;
+  align-items: stretch;
+}
+
+.nav-tab {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 8px;
+  height: 32px;
+  position: relative;
+  cursor: pointer;
+}
+
+.nav-tab .tab-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  padding: 0 8px;
+}
+
+.nav-tab.active .tab-label {
+  color: var(--color-brand-primary);
+}
+
+.nav-tab .tab-indicator {
+  position: absolute;
+  bottom: -4px;
+  left: 8px;
+  right: 8px;
+  height: 3px;
+  background: transparent;
+  border-radius: 2px 2px 0 0;
+}
+
+.nav-tab.active .tab-indicator {
+  background: var(--color-brand-primary);
+}
+
