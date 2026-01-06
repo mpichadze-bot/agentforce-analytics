@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Zap, Users, ChevronRight, Layers, BarChart2, Tag, Search, Download, Shield, Clock, Quote, ChevronDown } from 'lucide-react';
 
 // Top Requested Features derived from pain points analysis
+// Each feature is mapped to themes: metrics, usability, troubleshooting, functionality
 const topFeatures = [
   {
     id: 1,
@@ -11,6 +12,7 @@ const topFeatures = [
     customerCount: 14,
     priority: 'critical',
     icon: Layers,
+    theme: 'usability',
     customers: ['Indeed', 'Cellebrite', 'Nexo', 'Lululemon', 'Pearson', 'FedEx', 'eToro', 'Hard Rock', 'UNCC', 'Astound', 'Secret Escapes', 'Allegis', 'FDE Team', 'Help Agent'],
     keyQuote: 'I wish I could customize the dashboard... add my own columns and filters.',
     quoteSource: 'Cellebrite'
@@ -23,6 +25,7 @@ const topFeatures = [
     customerCount: 10,
     priority: 'critical',
     icon: ChevronRight,
+    theme: 'usability',
     customers: ['NVIDIA', 'Cellebrite', 'Nexo', 'Help Agent', 'Lululemon', 'eToro', 'Hard Rock', 'Secret Escapes', 'Oniverse', 'Allegis'],
     keyQuote: 'We want to interact more with the dashboards but can\'t navigate to messaging session directly.',
     quoteSource: 'NVIDIA'
@@ -35,6 +38,7 @@ const topFeatures = [
     customerCount: 7,
     priority: 'critical',
     icon: Tag,
+    theme: 'functionality',
     customers: ['Cellebrite', 'Lululemon', 'Help Agent', 'Indeed', 'Pearson', 'NVIDIA', 'FDE Team'],
     keyQuote: 'I want to flag this session as a bug but there\'s no way to do that in the tool.',
     quoteSource: 'Cellebrite'
@@ -47,6 +51,7 @@ const topFeatures = [
     customerCount: 8,
     priority: 'critical',
     icon: BarChart2,
+    theme: 'metrics',
     customers: ['FDE Team', 'eToro', 'Cellebrite', 'Nexo', 'Help Agent', 'Astound', 'Secret Escapes', 'Allegis'],
     keyQuote: 'We measure engagement based on end-user messages - your definition is guided by your commercial model.',
     quoteSource: 'Secret Escapes'
@@ -59,6 +64,7 @@ const topFeatures = [
     customerCount: 7,
     priority: 'high',
     icon: Download,
+    theme: 'troubleshooting',
     customers: ['Indeed', 'Cellebrite', 'Nexo', 'Help Agent', 'Lululemon', 'Pearson', 'Oniverse'],
     keyQuote: 'I literally have to export everything to Excel and manually tag each session.',
     quoteSource: 'Cellebrite'
@@ -71,6 +77,7 @@ const topFeatures = [
     customerCount: 5,
     priority: 'high',
     icon: Search,
+    theme: 'usability',
     customers: ['UNCC', 'Astound', 'FedEx', 'Hard Rock', 'Oniverse'],
     keyQuote: 'Any reporting based on Agent Force Analytics, we need to filter by messaging channel.',
     quoteSource: 'UNCC'
@@ -83,6 +90,7 @@ const topFeatures = [
     customerCount: 1,
     priority: 'medium',
     icon: Clock,
+    theme: 'troubleshooting',
     customers: ['Allegis'],
     keyQuote: 'Picturing a debug log that said credits used for steps actions one through five.',
     quoteSource: 'Allegis - Barry'
@@ -95,14 +103,21 @@ const topFeatures = [
     customerCount: 2,
     priority: 'high',
     icon: Shield,
+    theme: 'functionality',
     customers: ['FDE Team', 'IBM'],
     keyQuote: 'Customer concern about secure handling of social security numbers in transcripts.',
     quoteSource: 'FDE Team'
   }
 ];
 
-const InsightsPanel = ({ onFeatureClick }) => {
+const InsightsPanel = ({ onFeatureClick, selectedTheme }) => {
   const [expandedFeature, setExpandedFeature] = useState(null);
+  
+  // Filter features based on selected theme
+  const filteredFeatures = useMemo(() => {
+    if (!selectedTheme) return topFeatures;
+    return topFeatures.filter(f => f.theme === selectedTheme);
+  }, [selectedTheme]);
 
   const getPriorityStyles = (priority) => {
     switch (priority) {
@@ -127,13 +142,18 @@ const InsightsPanel = ({ onFeatureClick }) => {
           </div>
           <div>
             <h3 className="features-title">Top Requested Features</h3>
-            <p className="features-subtitle">Based on {topFeatures.reduce((sum, f) => sum + f.customerCount, 0)} customer mentions</p>
+            <p className="features-subtitle">
+              {selectedTheme 
+                ? `${filteredFeatures.length} features for this theme`
+                : `Based on ${topFeatures.reduce((sum, f) => sum + f.customerCount, 0)} customer mentions`
+              }
+            </p>
           </div>
         </div>
       </div>
 
       <div className="features-list">
-        {topFeatures.map((feature, index) => {
+        {filteredFeatures.map((feature, index) => {
           const Icon = feature.icon;
           const isExpanded = expandedFeature === feature.id;
           const priorityStyles = getPriorityStyles(feature.priority);

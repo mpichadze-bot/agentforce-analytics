@@ -38,19 +38,22 @@ export const painPointsData = [
     theme: 'metrics',
     title: "Major Data Discrepancies",
     description: "Dashboard metrics don't align with internal measurements - 1-2% vs 10-15% abandonment rates",
-    customerCount: 9,
-    customers: ["Secret Escapes", "Pearson", "eToro", "Astound", "Hard Rock", "UNCC", "FedEx", "Cellebrite", "Nexo"],
+    customerCount: 10,
+    customers: ["Secret Escapes", "Pearson", "eToro", "Astound", "Hard Rock", "UNCC", "FedEx", "Cellebrite", "Nexo", "Shark Ninja"],
     color: "orange",
     severity: "critical",
+    roadmap: { status: "planned", timeline: "TDX Apr '26", item: "Improve Abandonment & Deflection" },
     quotes: [
       { text: "Dashboard shows 1-2% abandonment vs our internal tracking of 10-15%.", source: "Secret Escapes - Laura Meschi" },
       { text: "The current definition of deflection doesn't align - includes frustrated users who left.", source: "Pearson - Nicole Lozano" },
-      { text: "Active user rate was 6% but with correct formula it's actually 84%!", source: "eToro - Avi Kuzi" }
+      { text: "Active user rate was 6% but with correct formula it's actually 84%!", source: "eToro - Avi Kuzi" },
+      { text: "These metrics don't provide meaningful insights - deflected just means the person left the chat, not that the question was answered.", source: "Shark Ninja - Carolin" }
     ],
     examples: [
       "Secret Escapes: 10-15% internal abandonment vs near 0% in Salesforce",
       "eToro: Wrong formula divided by all Salesforce users instead of assigned users",
       "Pearson: Deflection includes frustrated users who called instead",
+      "Shark Ninja: Deflection = window closed, not actual call containment",
       "Major discrepancies erode trust in all dashboard data"
     ]
   },
@@ -59,20 +62,22 @@ export const painPointsData = [
     theme: 'metrics',
     title: "Unclear Metric Definitions",
     description: "Users lack clear, in-app definitions for metrics like 'engagement rate', 'deflection rate', or 'closed action'",
-    customerCount: 8,
-    customers: ["FDE Team", "eToro", "Cellebrite", "Nexo", "Help Agent", "Astound", "Secret Escapes", "Allegis"],
+    customerCount: 9,
+    customers: ["FDE Team", "eToro", "Cellebrite", "Nexo", "Help Agent", "Astound", "Secret Escapes", "Allegis", "Shark Ninja"],
     color: "orange",
     severity: "critical",
+    roadmap: { status: "planned", timeline: "TDX Apr '26", item: "Enabling metrics and UI customization" },
     quotes: [
       { text: "We measure engagement based on end-user messages - your definition is guided by your commercial model.", source: "Secret Escapes - Laura Meschi" },
       { text: "What triggers 'closed action'? We've never seen the agent exit a session based on context.", source: "Secret Escapes - Daniel Measures" },
-      { text: "This calculated field is locked. You can't edit this one.", source: "eToro" }
+      { text: "This calculated field is locked. You can't edit this one.", source: "eToro" },
+      { text: "These definitions don't quite reflect intuitive user behavior or the true success of a conversation.", source: "Nir Tzavchon - Shark Ninja call" }
     ],
     examples: [
       "Secret Escapes: Engagement = end-user messages vs Salesforce = action invoked",
+      "Shark Ninja: Escalation = transfer to human vs their definition = phone number given",
       "Confusing 'closed action' vs 'closed user request' definitions",
-      "No 'info buttons' for quick definitions like in typical CRM",
-      "Confusing terminology: 'Utterance' vs 'Interaction'"
+      "No 'info buttons' for quick definitions like in typical CRM"
     ]
   },
   {
@@ -84,6 +89,7 @@ export const painPointsData = [
     customers: ["Astound", "UNCC", "Hard Rock", "FedEx", "Oniverse"],
     color: "orange",
     severity: "high",
+    roadmap: null,
     quotes: [
       { text: "Web chat metrics are unusable for channels like Slack, leading to misleading data.", source: "Astound" },
       { text: "Unique user metrics would not work well with the current service agent type.", source: "Astound" },
@@ -105,6 +111,7 @@ export const painPointsData = [
     customers: ["Astound", "Hard Rock", "Cellebrite"],
     color: "orange",
     severity: "high",
+    roadmap: null,
     quotes: [
       { text: "We are currently unable to reliably calculate the resolution rate because thumbs up/down is not working.", source: "Astound - Oksana Klymenko" },
       { text: "Implementing surveys is just not enough - customers aren't answering.", source: "Hard Rock" },
@@ -125,6 +132,7 @@ export const painPointsData = [
     customers: ["UNCC", "Astound", "FedEx", "Hard Rock", "Oniverse"],
     color: "orange",
     severity: "high",
+    roadmap: null,
     quotes: [
       { text: "Any reporting based on Agent Force Analytics, we need to filter by messaging channel.", source: "UNCC - Alexandra Flinn" },
       { text: "Calcedonia requires deeper insights filtered by brand and country.", source: "Oniverse - Elena Maio" },
@@ -146,6 +154,7 @@ export const painPointsData = [
     customers: ["eToro", "Hard Rock", "Astound", "Cellebrite", "Nexo", "Allegis"],
     color: "orange",
     severity: "high",
+    roadmap: null,
     quotes: [
       { text: "We're trying to understand who's using it... reaching many or used intensively by few?", source: "Hard Rock - Shira Gershoni" },
       { text: "Active user rate was 6% but with correct formula it's actually 84%!", source: "eToro - Avi Kuzi" },
@@ -169,6 +178,7 @@ export const painPointsData = [
     customers: ["NVIDIA", "Cellebrite", "Nexo", "Help Agent", "Lululemon", "eToro", "Hard Rock", "Secret Escapes", "Oniverse", "Allegis"],
     color: "red",
     severity: "critical",
+    roadmap: { status: "planned", timeline: "AKO Jan '26", item: "Faster agentic insights exploration" },
     quotes: [
       { text: "Major bug prevents easy clicking from dashboard metrics to corresponding detailed sessions.", source: "Hard Rock" },
       { text: "We want to interact more with the dashboards but can't navigate to messaging session directly.", source: "NVIDIA - Maor Goldfarb" },
@@ -190,6 +200,7 @@ export const painPointsData = [
     customers: ["Indeed", "Cellebrite", "Nexo", "Help Agent", "Lululemon", "Pearson", "FedEx", "eToro", "Hard Rock", "UNCC", "Astound", "Secret Escapes", "Allegis", "FDE Team"],
     color: "red",
     severity: "critical",
+    roadmap: { status: "planned", timeline: "TDX Apr '26", item: "Enabling metrics and UI customization" },
     quotes: [
       { text: "I wish I could customize the dashboard... add my own columns and filters.", source: "Cellebrite" },
       { text: "All of ours are service agents. Can we flip that filter to something else?", source: "UNCC - Alexandra Flinn" },
@@ -211,13 +222,13 @@ export const painPointsData = [
     customers: ["Nexo", "Cellebrite", "FDE Team"],
     color: "red",
     severity: "medium",
+    roadmap: { status: "planned", timeline: "TDX Apr '26", item: "UI customization for Observability" },
     quotes: [
-      { text: "I hate heat maps. I never understood heat maps.", source: "Cellebrite" },
       { text: "Line graph unintuitive... a bar chart would be easier to understand.", source: "Nexo" },
       { text: "Service managers found actual numbers more useful than percentages.", source: "FDE Team - Dreamforce" }
     ],
     examples: [
-      "Heat maps require memorizing what each color means",
+      "Complex visualizations require memorizing what each element means",
       "Prefer simple: good (green), bad (red), passive",
       "Tables preferred over metric cards for data analysis",
       "Numbers + line shape preferred by new users"
@@ -232,6 +243,7 @@ export const painPointsData = [
     customers: ["FDE Team", "FedEx", "Hard Rock"],
     color: "red",
     severity: "high",
+    roadmap: null,
     quotes: [
       { text: "Customers wanted to share insights with service line business leaders but unclear how.", source: "FDE Team - Dreamforce" },
       { text: "We want visibility to reports in each companion org, not just home org.", source: "FedEx" },
@@ -252,6 +264,7 @@ export const painPointsData = [
     customers: ["Nexo", "Cellebrite", "FDE Team"],
     color: "red",
     severity: "medium",
+    roadmap: { status: "planned", timeline: "TDX Apr '26", item: "UI customization for Observability" },
     quotes: [
       { text: "Key Insights, Moments, Agent Performance - too many tabs to navigate.", source: "Cellebrite" },
       { text: "Users suggest combining high-level overview and agent details into a unified view.", source: "Analysis" }
@@ -270,19 +283,22 @@ export const painPointsData = [
     theme: 'troubleshooting',
     title: "Users Forced into Manual Excel Workarounds",
     description: "Lack of actionable insights forces manual Excel exports for analysis, scoring, and tracking",
-    customerCount: 7,
-    customers: ["Indeed", "Cellebrite", "Nexo", "Help Agent", "Lululemon", "Pearson", "Oniverse"],
+    customerCount: 8,
+    customers: ["Indeed", "Cellebrite", "Nexo", "Help Agent", "Lululemon", "Pearson", "Oniverse", "Shark Ninja"],
     color: "yellow",
     severity: "critical",
+    roadmap: { status: "planned", timeline: "Dreamforce Sept '26", item: "Human-in-the-Loop reinforcement" },
     quotes: [
       { text: "I literally have to export everything to Excel and manually tag each session.", source: "Cellebrite" },
       { text: "We spend hours clicking through sessions one by one to find patterns.", source: "Indeed" },
-      { text: "We manually create an Excel file for each low-score session with details like case number, brand, feedback.", source: "Oniverse - Elena Maio" }
+      { text: "We manually create an Excel file for each low-score session with details like case number, brand, feedback.", source: "Oniverse - Elena Maio" },
+      { text: "We're slicing and dicing manual reports from the data cloud platform - it's a messy process that delivers marginal results.", source: "Shark Ninja - Stanley Konopka" }
     ],
     examples: [
       "Export to Excel for manual tagging and classification",
       "Click through 100+ sessions individually to identify failures",
       "Oniverse: Cannot download session data directly from observability",
+      "Shark Ninja: Extracting reports to Snowflake to run Gen AI over them",
       "Manual creation of failure taxonomy in spreadsheets"
     ]
   },
@@ -295,6 +311,7 @@ export const painPointsData = [
     customers: ["Indeed", "Cellebrite", "Nexo", "Help Agent", "Lululemon", "Hard Rock"],
     color: "yellow",
     severity: "critical",
+    roadmap: { status: "planned", timeline: "Dreamforce Sept '26", item: "Suggest common root causes for failures" },
     quotes: [
       { text: "I can see the agent failed but I have no idea why.", source: "Indeed" },
       { text: "No robust tools to investigate *why* conversations failed.", source: "Hard Rock" },
@@ -316,6 +333,7 @@ export const painPointsData = [
     customers: ["Indeed", "Cellebrite", "Nexo", "Help Agent", "Lululemon", "Hard Rock"],
     color: "yellow",
     severity: "critical",
+    roadmap: { status: "planned", timeline: "TDX Apr '26", item: "Enriched telemetry for session data" },
     quotes: [
       { text: "What did the retriever return? The planner reasoning is completely hidden.", source: "Help Agent" },
       { text: "Cannot see which knowledge articles were retrieved.", source: "Indeed" },
@@ -333,10 +351,11 @@ export const painPointsData = [
     theme: 'troubleshooting',
     title: "Building Custom Reports is Too Difficult",
     description: "Complex underlying STDM is a major pain point for building custom reports and dashboards",
-    customerCount: 12,
-    customers: ["Cellebrite", "Nexo", "Help Agent", "Lululemon", "Pearson", "FedEx", "eToro", "Hard Rock", "UNCC", "Astound", "Oniverse", "Allegis"],
+    customerCount: 13,
+    customers: ["Cellebrite", "Nexo", "Help Agent", "Lululemon", "Pearson", "FedEx", "eToro", "Hard Rock", "UNCC", "Astound", "Oniverse", "Allegis", "Shark Ninja"],
     color: "yellow",
     severity: "critical",
+    roadmap: { status: "planned", timeline: "Dreamforce Sept '26", item: "Richer data analysis on Platform Traces" },
     quotes: [
       { text: "STDM has so many objects... we need a dedicated person just to build reports.", source: "Nexo" },
       { text: "We had to create a custom data transform to bring in messaging channel.", source: "UNCC - Alexandra Flinn" },
@@ -358,6 +377,7 @@ export const painPointsData = [
     customers: ["Lululemon", "Hard Rock", "Oniverse", "FDE Team"],
     color: "yellow",
     severity: "high",
+    roadmap: { status: "planned", timeline: "TDX Apr '26", item: "Custom session evaluations with LLM-as-judge" },
     quotes: [
       { text: "Customers approach agent evaluation from a QA/QM perspective, valuing structured scorecards.", source: "Lululemon" },
       { text: "LLM as workbench for validation, not primary source.", source: "Lululemon" },
@@ -379,6 +399,7 @@ export const painPointsData = [
     customers: ["Indeed", "Nexo", "Lululemon", "Pearson"],
     color: "yellow",
     severity: "medium",
+    roadmap: null,
     quotes: [
       { text: "The auto-detected intents don't match our business categories at all.", source: "Indeed" },
       { text: "We had to build our own intent classification tool because the built-in one is useless.", source: "Nexo" },
@@ -400,6 +421,7 @@ export const painPointsData = [
     customers: ["Secret Escapes", "Allegis"],
     color: "yellow",
     severity: "high",
+    roadmap: null,
     quotes: [
       { text: "Why would the same session be counted twice or three times in the report?", source: "Secret Escapes - Laura Meschi" },
       { text: "One messaging session might be tied to multiple planner sessions due to escalations.", source: "Nir Tzavchon" },
@@ -419,19 +441,22 @@ export const painPointsData = [
     theme: 'functionality',
     title: "Custom Tagging & Evaluation is Essential",
     description: "Inability to create custom tags or define custom evaluation criteria is a major functional gap",
-    customerCount: 7,
-    customers: ["Cellebrite", "Lululemon", "Help Agent", "Indeed", "Pearson", "NVIDIA", "FDE Team"],
+    customerCount: 8,
+    customers: ["Cellebrite", "Lululemon", "Help Agent", "Indeed", "Pearson", "NVIDIA", "FDE Team", "Shark Ninja"],
     color: "green",
     severity: "critical",
+    roadmap: { status: "planned", timeline: "TDX Apr '26", item: "Custom session evaluations with LLM-as-judge" },
     quotes: [
       { text: "I want to flag this session as a bug but there's no way to do that in the tool.", source: "Cellebrite" },
       { text: "Yana expressed the need for product-based tagging per messaging session.", source: "NVIDIA" },
-      { text: "Custom tagging would support tagging competitors, product mentions, sentiment (0-5).", source: "FDE Team - Itay Oren" }
+      { text: "Custom tagging would support tagging competitors, product mentions, sentiment (0-5).", source: "FDE Team - Itay Oren" },
+      { text: "We need the ability to set up custom LLM evaluations on session data - define our own resolution and abandonment definitions.", source: "Shark Ninja - Nir Tzavchon" }
     ],
     examples: [
       "Cannot flag sessions as 'bug', 'needs review', or 'resolved'",
       "NVIDIA: Need to categorize by product (DGX, switches)",
       "FDE Team: 'Unified Evals' / 'Agent Force Evals' in development",
+      "Shark Ninja: Want custom call containment definitions",
       "No annotation capability for adding context notes"
     ]
   },
@@ -444,6 +469,7 @@ export const painPointsData = [
     customers: ["Help Agent", "Lululemon", "Allegis"],
     color: "green",
     severity: "high",
+    roadmap: { status: "planned", timeline: "End FY Jan '27", item: "Simulation 1.0 for richer ADLC" },
     quotes: [
       { text: "Need for a 'what if' analysis capability to simulate the impact of changes.", source: "Help Agent" },
       { text: "Score → Classify → Root Cause → Simulate Fix - this is the north star workflow.", source: "Lululemon - Erez Agami" },
@@ -465,6 +491,7 @@ export const painPointsData = [
     customers: ["Cellebrite", "NVIDIA"],
     color: "green",
     severity: "medium",
+    roadmap: { status: "planned", timeline: "TDX Apr '26", item: "Observability Agent for diagnostics & action" },
     quotes: [
       { text: "I would expect an AI to give me an insight of why is it dropping down.", source: "Cellebrite" },
       { text: "Understanding the number of questions per session is crucial for determining customer behavior.", source: "NVIDIA - Yana Irani" }
@@ -485,6 +512,7 @@ export const painPointsData = [
     customers: ["Help Agent", "Hard Rock", "Cellebrite"],
     color: "green",
     severity: "medium",
+    roadmap: null,
     quotes: [
       { text: "Metrics are just numbers without context. What do I do with a 65% score?", source: "Help Agent" },
       { text: "No 'Call to Action' buttons to trigger workflows from metrics.", source: "Analysis" }
@@ -505,6 +533,7 @@ export const painPointsData = [
     customers: ["FDE Team", "IBM"],
     color: "green",
     severity: "high",
+    roadmap: { status: "planned", timeline: "Dreamforce Sept '26", item: "Geo-Aware LLM models for compliance" },
     quotes: [
       { text: "Customer concern about identification and secure handling of social security numbers in transcripts.", source: "FDE Team - Dreamforce" },
       { text: "A solution is being developed by Data Cloud - pilot expected next month with permission-based masking.", source: "FDE Team - Itay Oren" }
@@ -514,90 +543,6 @@ export const painPointsData = [
       "Data Cloud pilot for PII masking coming soon",
       "Mask data based on user permission queries",
       "Compliance and security risk until resolved"
-    ]
-  },
-  {
-    rank: 24,
-    theme: 'functionality',
-    title: "Legacy SKU Blocks Modern Analytics",
-    description: "Customers on legacy 'conversations' SKU cannot access Tableau Next, agent analytics beta, or new observability features",
-    customerCount: 1,
-    customers: ["Allegis"],
-    color: "green",
-    severity: "critical",
-    quotes: [
-      { text: "You can't enable Tableau Next because you're on the legacy conversations SKU, not flex credits.", source: "Nir Tzavchon - Sep 25, 2025" },
-      { text: "We tried to install service agent analytics app and installation failed.", source: "Allegis - Abhijit Mahato" },
-      { text: "Tableau Next Limited Consumer permission set is required but we don't have it.", source: "Allegis - Abhijit Mahato" }
-    ],
-    examples: [
-      "Cannot enable Tableau Next UI for out-of-box dashboards",
-      "Agent Analytics Beta installation fails without flex credits",
-      "Early adopters stuck on legacy infrastructure",
-      "Forces reliance on complex SDM queries for custom reports"
-    ]
-  },
-  {
-    rank: 25,
-    theme: 'functionality',
-    title: "No Real-time Credit/Consumption Debugging",
-    description: "Cannot see real-time credit consumption during development - need debug log showing credits used per step/action",
-    customerCount: 1,
-    customers: ["Allegis"],
-    color: "green",
-    severity: "high",
-    quotes: [
-      { text: "Is there capability for real-time analysis to run an agent and it gives you real-time breakdown... like a debug tool that says 'step one, you just burned 85 credits'?", source: "Allegis - Barry" },
-      { text: "Picturing a debug log that said credits used for steps actions one through five.", source: "Allegis - Barry" },
-      { text: "The digital wallet app shows consumption but it's very asynchronous - doesn't feel like real-time analytics.", source: "Allegis - Barry" }
-    ],
-    examples: [
-      "No way to see credit consumption during agent testing",
-      "Digital wallet app updates asynchronously, not in real-time",
-      "Cannot forecast costs during development phase",
-      "Need debug-style output showing per-action credit usage"
-    ]
-  },
-  {
-    rank: 26,
-    theme: 'usability',
-    title: "Permission Set Visibility Issues",
-    description: "Users with identical permission sets have different access - some can't see Agent Force Studio tabs",
-    customerCount: 1,
-    customers: ["Allegis"],
-    color: "red",
-    severity: "high",
-    quotes: [
-      { text: "I have the same permission sets as Abhijit but I can't see any tabs in Agent Force Studio.", source: "Allegis - Jeff Grosse" },
-      { text: "If I'm made system administrator, I can see it - but not everyone should need to be sys admin.", source: "Allegis - Jeff Grosse" },
-      { text: "I can see the app but I get no tabs.", source: "Allegis - Jeff Grosse" }
-    ],
-    examples: [
-      "Same perm sets produce different UI visibility",
-      "Must escalate to System Admin to see Agent Force Studio tabs",
-      "Inconsistent access control causing confusion",
-      "No clear documentation on required permissions"
-    ]
-  },
-  {
-    rank: 27,
-    theme: 'troubleshooting',
-    title: "Data Refresh Does Full Instead of Incremental",
-    description: "Legacy data transforms perform full refreshes of millions of records instead of incremental updates, consuming excessive credits",
-    customerCount: 1,
-    customers: ["Allegis"],
-    color: "yellow",
-    severity: "high",
-    quotes: [
-      { text: "The refresh history shows it's doing a full refresh every time of 4.8 million records instead of incrementals.", source: "Allegis - Jeff Grosse" },
-      { text: "This was part of our legacy solution and it was very credit consuming. We unscheduled these data transforms.", source: "Nir Tzavchon" },
-      { text: "Salesforce support turned it off June 21st because it was consuming a lot of credits.", source: "Allegis - Abhijit Mahato" }
-    ],
-    examples: [
-      "4.8M rows refreshed every cycle instead of delta updates",
-      "Salesforce had to manually disable transforms due to credit burn",
-      "Legacy agent analytics being retired April 2026",
-      "Forces choice between no data or excessive credit usage"
     ]
   }
 ];
@@ -779,6 +724,17 @@ export const customersData = [
     workflowUrl: '?view=nvidia-workflow',
     uxUrl: '?view=nvidia-ux',
     date: 'Jan 1, 2026'
+  },
+  {
+    id: 'sharkninja',
+    name: 'Shark Ninja',
+    color: 'cyan',
+    tagline: 'CX Call Containment',
+    description: 'Critical need for call containment metrics - current deflection/abandonment definitions don\'t reflect actual customer behavior or ROI',
+    metrics: ['Call Containment', 'Custom Deflection', 'Manual Reporting Pain'],
+    workflowUrl: '?view=sharkninja-workflow',
+    uxUrl: '?view=sharkninja-ux',
+    date: 'Sep 25, 2025'
   },
   {
     id: 'ibm',

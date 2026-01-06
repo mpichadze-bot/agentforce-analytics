@@ -370,6 +370,10 @@
   background: var(--accent-orange-dim); 
   color: var(--accent-orange); 
 }
+.stat-icon.red { 
+  background: var(--accent-red-dim); 
+  color: var(--accent-red); 
+}
 
 .stat-content {
   flex: 1;
@@ -416,20 +420,29 @@
 
 .theme-pills {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: var(--space-2);
-  padding: var(--space-4);
+  padding: var(--space-3) var(--space-4);
   background: var(--obsidian-surface);
   border: 1px solid var(--obsidian-border);
   border-radius: var(--radius-lg);
   margin-bottom: var(--space-6);
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.theme-pills::-webkit-scrollbar {
+  display: none;
 }
 
 .theme-pill {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-2);
-  padding: var(--space-2) var(--space-4);
+  gap: 6px;
+  padding: var(--space-2) var(--space-3);
+  white-space: nowrap;
+  flex-shrink: 0;
   background: var(--obsidian-glass);
   border: 1px solid transparent;
   border-radius: var(--radius-full);
@@ -487,6 +500,29 @@
   overflow: hidden;
 }
 
+.show-more-btn {
+  width: 100%;
+  padding: 0.875rem;
+  margin-top: 0.5rem;
+  background: linear-gradient(135deg, rgba(0, 212, 255, 0.08) 0%, rgba(168, 85, 247, 0.08) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  color: var(--accent-cyan);
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.show-more-btn:hover {
+  background: linear-gradient(135deg, rgba(0, 212, 255, 0.15) 0%, rgba(168, 85, 247, 0.15) 100%);
+  border-color: rgba(0, 212, 255, 0.3);
+}
+
 .data-table {
   width: 100%;
   border-collapse: collapse;
@@ -537,12 +573,43 @@
 .table-cell-title {
   font-weight: 500;
   color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
 }
 
 .table-cell-subtitle {
   font-size: 0.8rem;
   color: var(--text-muted);
   margin-top: 2px;
+}
+
+/* Roadmap Tags */
+.roadmap-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.65rem;
+  font-weight: 500;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.roadmap-tag.planned {
+  background: var(--accent-green-dim);
+  color: var(--accent-green);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.roadmap-tag.not-planned {
+  background: rgba(113, 113, 122, 0.15);
+  color: var(--text-muted);
+  border: 1px solid rgba(113, 113, 122, 0.2);
 }
 
 .table-bar {
@@ -869,11 +936,11 @@
 .modal-body {
   flex: 1;
   overflow-y: auto;
-  padding: var(--space-6);
+  padding: var(--space-4) var(--space-6);
 }
 
 .modal-section {
-  margin-bottom: var(--space-8);
+  margin-bottom: var(--space-4);
 }
 
 .modal-section:last-child {
@@ -899,12 +966,12 @@
 /* Quote Cards in Modal */
 .quote-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: var(--space-4);
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--space-3);
 }
 
 .quote-card {
-  padding: var(--space-4);
+  padding: var(--space-3);
   background: var(--obsidian-glass);
   border: 1px solid var(--obsidian-border);
   border-left: 3px solid var(--accent-cyan);
@@ -912,10 +979,10 @@
 }
 
 .quote-text {
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   color: var(--text-primary);
-  line-height: 1.5;
-  margin-bottom: var(--space-3);
+  line-height: 1.4;
+  margin-bottom: var(--space-2);
   font-style: italic;
 }
 
@@ -1146,12 +1213,8 @@
   }
   
   .theme-pills {
-    flex-direction: column;
-  }
-  
-  .theme-pill {
-    width: 100%;
-    justify-content: center;
+    /* Keep horizontal scroll on mobile */
+    padding: var(--space-2) var(--space-3);
   }
   
   .modal-container {

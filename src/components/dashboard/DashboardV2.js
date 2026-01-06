@@ -1,12 +1,11 @@
 import React, { useState, useMemo } from 'react';
 import {
   AlertTriangle, Users, Layers, TrendingUp, ChevronDown, ChevronUp,
-  ArrowUpRight, Calculator, Settings, Search, Zap
+  ArrowUpRight, Calculator, Settings, Search, Zap, Calendar, Clock
 } from 'lucide-react';
 import { AIProvider } from '../ai/AIProvider';
 import CommandBar from '../ai/CommandBar';
 import InsightsPanel from '../ai/InsightsPanel';
-import ChatWidget from '../ai/ChatWidget';
 import DeepDiveModal from './DeepDiveModal';
 import '../../styles/obsidian.css';
 
@@ -19,6 +18,20 @@ const DashboardV2 = () => {
   const [sortDir, setSortDir] = useState('desc');
   const [selectedItem, setSelectedItem] = useState(null);
   const [selectedItemType, setSelectedItemType] = useState(null);
+  const [showAllPainPoints, setShowAllPainPoints] = useState(false);
+  const [showAllCustomers, setShowAllCustomers] = useState(false);
+  
+  const COLLAPSED_LIMIT = 7;
+  const CUSTOMER_COLLAPSED_LIMIT = 8;
+
+  // Parse date string to sortable value (handles formats like "Dec 16, 2025" and "Sep 16 - Dec 19, 2025")
+  const parseDate = (dateStr) => {
+    if (!dateStr) return 0;
+    // For date ranges, use the end date
+    const cleanDate = dateStr.includes(' - ') ? dateStr.split(' - ')[1] : dateStr;
+    const parsed = new Date(cleanDate);
+    return isNaN(parsed.getTime()) ? 0 : parsed.getTime();
+  };
 
   // Filter and sort pain points
   const filteredPainPoints = useMemo(() => {
@@ -37,18 +50,27 @@ const DashboardV2 = () => {
     return points;
   }, [selectedTheme, sortBy, sortDir]);
 
-  // Filter customers based on selected theme
+  // Filter and sort customers by date (most recent first)
   const filteredCustomers = useMemo(() => {
-    if (!selectedTheme) return customersData;
+    let customers = [...customersData];
     
-    const themeCustomerNames = [...new Set(
-      painPointsData
-        .filter(p => p.theme === selectedTheme)
-        .flatMap(p => p.customers)
-    )];
+    if (selectedTheme) {
+      const themeCustomerNames = [...new Set(
+        painPointsData
+          .filter(p => p.theme === selectedTheme)
+          .flatMap(p => p.customers)
+      )];
+      customers = customers.filter(c => themeCustomerNames.includes(c.name));
+    }
     
-    return customersData.filter(c => themeCustomerNames.includes(c.name));
+    // Sort by date (most recent first)
+    customers.sort((a, b) => parseDate(b.date) - parseDate(a.date));
+    
+    return customers;
   }, [selectedTheme]);
+  
+  const displayedCustomers = showAllCustomers ? filteredCustomers : filteredCustomers.slice(0, CUSTOMER_COLLAPSED_LIMIT);
+  const hasMoreCustomers = filteredCustomers.length > CUSTOMER_COLLAPSED_LIMIT;
 
   // Stats
   const stats = useMemo(() => ({
@@ -132,46 +154,6 @@ const DashboardV2 = () => {
             />
           </div>
 
-          {/* Stats Bar */}
-          <div className="stats-bar">
-            <div className="stat-card">
-              <div className="stat-icon orange">
-                <AlertTriangle size={24} />
-              </div>
-              <div className="stat-content">
-                <div className="stat-value">{stats.totalPainPoints}</div>
-                <div className="stat-label">Pain Points</div>
-              </div>
-            </div>
-            <div className="stat-card">
-              <div className="stat-icon cyan">
-                <Users size={24} />
-              </div>
-              <div className="stat-content">
-                <div className="stat-value">{stats.totalCustomers}</div>
-                <div className="stat-label">Customers</div>
-              </div>
-            </div>
-            <div className="stat-card">
-              <div className="stat-icon purple">
-                <Layers size={24} />
-              </div>
-              <div className="stat-content">
-                <div className="stat-value">{stats.totalThemes}</div>
-                <div className="stat-label">Themes</div>
-              </div>
-            </div>
-            <div className="stat-card">
-              <div className="stat-icon green">
-                <TrendingUp size={24} />
-              </div>
-              <div className="stat-content">
-                <div className="stat-value">{stats.avgCustomersPerPain}</div>
-                <div className="stat-label">Avg. Customers/Issue</div>
-              </div>
-            </div>
-          </div>
-
           {/* Theme Filter Pills */}
           <div className="theme-pills">
             <button
@@ -226,7 +208,7 @@ const DashboardV2 = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {filteredPainPoints.map((pain) => {
+                  {(showAllPainPoints ? filteredPainPoints : filteredPainPoints.slice(0, COLLAPSED_LIMIT)).map((pain) => {
                     const ThemeIcon = getThemeIcon(pain.theme);
                     const barWidth = (pain.customerCount / stats.totalCustomers) * 100;
                     
@@ -241,7 +223,20 @@ const DashboardV2 = () => {
                           </div>
                         </td>
                         <td>
-                          <div className="table-cell-title">{pain.title}</div>
+                          <div className="table-cell-title">
+                            {pain.title}
+                            {pain.roadmap ? (
+                              <span className="roadmap-tag planned" title={pain.roadmap.item}>
+                                <Calendar size={10} />
+                                {pain.roadmap.timeline}
+                              </span>
+                            ) : (
+                              <span className="roadmap-tag not-planned">
+                                <Clock size={10} />
+                                Not Planned
+                              </span>
+                            )}
+                          </div>
                           <div className="table-cell-subtitle">
                             {pain.description.length > 80 
                               ? pain.description.slice(0, 80) + '...' 
@@ -268,10 +263,30 @@ const DashboardV2 = () => {
                   })}
                 </tbody>
               </table>
+              
+              {/* Show More / Show Less Button */}
+              {filteredPainPoints.length > COLLAPSED_LIMIT && (
+                <button
+                  onClick={() => setShowAllPainPoints(!showAllPainPoints)}
+                  className="show-more-btn"
+                >
+                  {showAllPainPoints ? (
+                    <>
+                      <ChevronUp size={16} />
+                      Show Less
+                    </>
+                  ) : (
+                    <>
+                      <ChevronDown size={16} />
+                      Show {filteredPainPoints.length - COLLAPSED_LIMIT} More Pain Points
+                    </>
+                  )}
+                </button>
+              )}
             </div>
 
             {/* AI Insights Panel */}
-            <InsightsPanel />
+            <InsightsPanel selectedTheme={selectedTheme} />
           </div>
 
           {/* Customer Grid */}
@@ -299,7 +314,7 @@ const DashboardV2 = () => {
                   color: 'var(--text-muted)',
                   fontWeight: 400
                 }}>
-                  ({filteredCustomers.length} of {customersData.length})
+                  ({filteredCustomers.length}) • Sorted by recent
                 </span>
               </h2>
               {selectedTheme && (
@@ -316,7 +331,7 @@ const DashboardV2 = () => {
             </div>
 
             <div className="customer-grid-v2">
-              {filteredCustomers.map((customer) => {
+              {displayedCustomers.map((customer) => {
                 // Count pain points for this customer
                 const painCount = painPointsData.filter(p => 
                   p.customers.includes(customer.name)
@@ -341,9 +356,20 @@ const DashboardV2 = () => {
                       <div className={`customer-avatar ${mappedColor}`}>
                         {customer.name.charAt(0)}
                       </div>
-                      <div className="customer-pain-badge">
-                        <AlertTriangle size={12} />
-                        {painCount} issues
+                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '0.25rem' }}>
+                        <div className="customer-pain-badge">
+                          <AlertTriangle size={12} />
+                          {painCount} issues
+                        </div>
+                        {customer.date && (
+                          <div style={{ 
+                            fontSize: '0.65rem', 
+                            color: 'var(--text-dimmed)',
+                            fontFamily: 'var(--font-mono)'
+                          }}>
+                            {customer.date}
+                          </div>
+                        )}
                       </div>
                     </div>
                     <div className="customer-card-name">{customer.name}</div>
@@ -357,11 +383,29 @@ const DashboardV2 = () => {
                 );
               })}
             </div>
+            
+            {/* Show More / Show Less Button for Customers */}
+            {hasMoreCustomers && (
+              <button
+                onClick={() => setShowAllCustomers(!showAllCustomers)}
+                className="show-more-btn"
+                style={{ marginTop: '1rem' }}
+              >
+                {showAllCustomers ? (
+                  <>
+                    <ChevronUp size={16} />
+                    Show Less
+                  </>
+                ) : (
+                  <>
+                    <ChevronDown size={16} />
+                    Show {filteredCustomers.length - CUSTOMER_COLLAPSED_LIMIT} More Customers
+                  </>
+                )}
+              </button>
+            )}
           </div>
         </div>
-
-        {/* Floating AI Chat */}
-        <ChatWidget />
 
         {/* Deep Dive Modal */}
         {selectedItem && (
