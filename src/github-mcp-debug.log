@@ -1,6 +1,0 @@
-time=2025-12-15T13:08:23.473+02:00 level=INFO msg="starting server" version=0.24.1 host="" dynamicToolsets=false readOnly=false lockdownEnabled=false
-time=2025-12-15T13:08:23.473+02:00 level=INFO msg="server run start"
-time=2025-12-15T13:08:23.473+02:00 level=INFO msg="server connecting"
-time=2025-12-15T13:08:23.473+02:00 level=INFO msg="server session connected" session_id=""
-time=2025-12-15T13:08:23.474+02:00 level=INFO msg="server session disconnected" session_id=""
-time=2025-12-15T13:08:23.474+02:00 level=INFO msg="server session ended"
