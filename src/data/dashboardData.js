@@ -150,20 +150,22 @@ export const painPointsData = [
     theme: 'metrics',
     title: "No Unique User Tracking",
     description: "Cannot identify distinct users, repeat vs first-time visitors, or calculate true adoption rates",
-    customerCount: 6,
-    customers: ["eToro", "Hard Rock", "Astound", "Cellebrite", "Nexo", "Allegis"],
+    customerCount: 7,
+    customers: ["eToro", "Hard Rock", "Astound", "Cellebrite", "Nexo", "Allegis", "PayPal"],
     color: "orange",
     severity: "high",
     roadmap: null,
     quotes: [
       { text: "We're trying to understand who's using it... reaching many or used intensively by few?", source: "Hard Rock - Shira Gershoni" },
       { text: "Active user rate was 6% but with correct formula it's actually 84%!", source: "eToro - Avi Kuzi" },
-      { text: "We assigned this employee agent to almost 2,000 users but it's showing only 12.", source: "Allegis - Abhijit Mahato" }
+      { text: "We assigned this employee agent to almost 2,000 users but it's showing only 12.", source: "Allegis - Abhijit Mahato" },
+      { text: "Major struggle for the customer with the employee agent is getting accurate adoption and usage numbers, such as tracking weekly active users.", source: "PayPal - Nathalie Sautner" }
     ],
     examples: [
       "eToro: Wrong formula divided by all Salesforce users instead of assigned",
       "Hard Rock: Cannot differentiate repeat vs first-time users",
       "Allegis: 2,000 users assigned but only 12 unique users showing",
+      "PayPal: Major struggle getting accurate adoption and usage numbers, tracking weekly active users",
       "Cannot measure true adoption rate or reach vs. intensity"
     ]
   },
@@ -196,20 +198,22 @@ export const painPointsData = [
     theme: 'usability',
     title: "Dashboards Lack Customization",
     description: "Critical need to add, remove, or modify metrics and create custom homepages tailored to business goals",
-    customerCount: 14,
-    customers: ["Indeed", "Cellebrite", "Nexo", "Help Agent", "Lululemon", "Pearson", "FedEx", "eToro", "Hard Rock", "UNCC", "Astound", "Secret Escapes", "Allegis", "FDE Team"],
+    customerCount: 15,
+    customers: ["Indeed", "Cellebrite", "Nexo", "Help Agent", "Lululemon", "Pearson", "FedEx", "eToro", "Hard Rock", "UNCC", "Astound", "Secret Escapes", "Allegis", "FDE Team", "PayPal"],
     color: "red",
     severity: "critical",
     roadmap: { status: "planned", timeline: "TDX Apr '26", item: "Enabling metrics and UI customization" },
     quotes: [
       { text: "I wish I could customize the dashboard... add my own columns and filters.", source: "Cellebrite" },
       { text: "All of ours are service agents. Can we flip that filter to something else?", source: "UNCC - Alexandra Flinn" },
-      { text: "Customers might want to adjust their own acceptable ranges - requires customization.", source: "FDE Team - Sergio Morales" }
+      { text: "Customers might want to adjust their own acceptable ranges - requires customization.", source: "FDE Team - Sergio Morales" },
+      { text: "Customer preferred a 'lead nurturing dashboard' focused on the pipeline of agent work, meetings, replies, and cancellations.", source: "PayPal - Jon Wilson" }
     ],
     examples: [
       "eToro: Cannot edit locked calculated fields in Agent for Studio",
       "UNCC: Default 'service agent' filter useless - need agent name filter",
       "FDE Team: Need Tableau Next Plus license just to customize ranges",
+      "PayPal: Need custom 'lead nurturing dashboard' for pipeline, meetings, replies, cancellations",
       "No date range filtering for historical analysis"
     ]
   },
@@ -351,20 +355,22 @@ export const painPointsData = [
     theme: 'troubleshooting',
     title: "Building Custom Reports is Too Difficult",
     description: "Complex underlying STDM is a major pain point for building custom reports and dashboards",
-    customerCount: 13,
-    customers: ["Cellebrite", "Nexo", "Help Agent", "Lululemon", "Pearson", "FedEx", "eToro", "Hard Rock", "UNCC", "Astound", "Oniverse", "Allegis", "Shark Ninja"],
+    customerCount: 14,
+    customers: ["Cellebrite", "Nexo", "Help Agent", "Lululemon", "Pearson", "FedEx", "eToro", "Hard Rock", "UNCC", "Astound", "Oniverse", "Allegis", "Shark Ninja", "PayPal"],
     color: "yellow",
     severity: "critical",
     roadmap: { status: "planned", timeline: "Dreamforce Sept '26", item: "Richer data analysis on Platform Traces" },
     quotes: [
       { text: "STDM has so many objects... we need a dedicated person just to build reports.", source: "Nexo" },
       { text: "We had to create a custom data transform to bring in messaging channel.", source: "UNCC - Alexandra Flinn" },
-      { text: "Even if you don't have Tableau Next UI, you can build queries on the semantic data model... but navigating it requires deep technical knowledge.", source: "Nir Tzavchon - Allegis call" }
+      { text: "Even if you don't have Tableau Next UI, you can build queries on the semantic data model... but navigating it requires deep technical knowledge.", source: "Nir Tzavchon - Allegis call" },
+      { text: "The default agent does not currently provide API access for reports, which is a reason to motivate the customer to move to the 'employee agent' for more detailed reporting.", source: "PayPal - Tye Jones" }
     ],
     examples: [
       "STDM contains 15+ DMOs requiring deep technical knowledge",
       "eToro: Must use Data Cloud console for custom metrics",
       "Allegis: Must navigate SDM manually without Tableau Next access",
+      "PayPal: Default agent lacks API access for reports - must migrate to employee agent",
       "Building a simple funnel report takes days of development"
     ]
   },
@@ -373,20 +379,22 @@ export const painPointsData = [
     theme: 'troubleshooting',
     title: "Need for Custom QA Scorecards",
     description: "Customers want to define their own QA scorecards and use an LLM workbench to score against them",
-    customerCount: 4,
-    customers: ["Lululemon", "Hard Rock", "Oniverse", "FDE Team"],
+    customerCount: 5,
+    customers: ["Lululemon", "Hard Rock", "Oniverse", "FDE Team", "PayPal"],
     color: "yellow",
     severity: "high",
     roadmap: { status: "planned", timeline: "TDX Apr '26", item: "Custom session evaluations with LLM-as-judge" },
     quotes: [
       { text: "Customers approach agent evaluation from a QA/QM perspective, valuing structured scorecards.", source: "Lululemon" },
       { text: "LLM as workbench for validation, not primary source.", source: "Lululemon" },
-      { text: "LLM scoring not customizable - customers want to tweak prompts.", source: "FDE Team - Dreamforce" }
+      { text: "LLM scoring not customizable - customers want to tweak prompts.", source: "FDE Team - Dreamforce" },
+      { text: "Customer needs to evaluate SDR agent effectiveness using metrics like email quantity and appropriate responses.", source: "PayPal - Nathalie Sautner" }
     ],
     examples: [
       "Want to define custom QA criteria per business needs",
       "Need LLM workbench to score conversations against criteria",
       "FDE Team: High/medium/low scoring is fixed",
+      "PayPal: Need to evaluate SDR agent effectiveness (email quantity, appropriate responses)",
       "Align AI scoring with company quality standards"
     ]
   },
@@ -441,8 +449,8 @@ export const painPointsData = [
     theme: 'functionality',
     title: "Custom Tagging & Evaluation is Essential",
     description: "Inability to create custom tags or define custom evaluation criteria is a major functional gap",
-    customerCount: 8,
-    customers: ["Cellebrite", "Lululemon", "Help Agent", "Indeed", "Pearson", "NVIDIA", "FDE Team", "Shark Ninja"],
+    customerCount: 9,
+    customers: ["Cellebrite", "Lululemon", "Help Agent", "Indeed", "Pearson", "NVIDIA", "FDE Team", "Shark Ninja", "PayPal"],
     color: "green",
     severity: "critical",
     roadmap: { status: "planned", timeline: "TDX Apr '26", item: "Custom session evaluations with LLM-as-judge" },
@@ -450,13 +458,15 @@ export const painPointsData = [
       { text: "I want to flag this session as a bug but there's no way to do that in the tool.", source: "Cellebrite" },
       { text: "Yana expressed the need for product-based tagging per messaging session.", source: "NVIDIA" },
       { text: "Custom tagging would support tagging competitors, product mentions, sentiment (0-5).", source: "FDE Team - Itay Oren" },
-      { text: "We need the ability to set up custom LLM evaluations on session data - define our own resolution and abandonment definitions.", source: "Shark Ninja - Nir Tzavchon" }
+      { text: "We need the ability to set up custom LLM evaluations on session data - define our own resolution and abandonment definitions.", source: "Shark Ninja - Nir Tzavchon" },
+      { text: "Customer has strong interest in an 'evaluation agent' to monitor the SDR agent and report on its effectiveness.", source: "PayPal - Nathalie Sautner" }
     ],
     examples: [
       "Cannot flag sessions as 'bug', 'needs review', or 'resolved'",
       "NVIDIA: Need to categorize by product (DGX, switches)",
       "FDE Team: 'Unified Evals' / 'Agent Force Evals' in development",
       "Shark Ninja: Want custom call containment definitions",
+      "PayPal: Strong interest in evaluation agent to monitor SDR agent effectiveness",
       "No annotation capability for adding context notes"
     ]
   },
@@ -487,19 +497,21 @@ export const painPointsData = [
     theme: 'functionality',
     title: "Lack of AI-Driven Insights",
     description: "Users want AI to explain *why* a metric is trending down, beyond just showing the drop",
-    customerCount: 2,
-    customers: ["Cellebrite", "NVIDIA"],
+    customerCount: 3,
+    customers: ["Cellebrite", "NVIDIA", "PayPal"],
     color: "green",
     severity: "medium",
     roadmap: { status: "planned", timeline: "TDX Apr '26", item: "Observability Agent for diagnostics & action" },
     quotes: [
       { text: "I would expect an AI to give me an insight of why is it dropping down.", source: "Cellebrite" },
-      { text: "Understanding the number of questions per session is crucial for determining customer behavior.", source: "NVIDIA - Yana Irani" }
+      { text: "Understanding the number of questions per session is crucial for determining customer behavior.", source: "NVIDIA - Yana Irani" },
+      { text: "Customer needs agent 'health' metrics, such as hallucination detection and analyzing user utterances.", source: "PayPal - Nathalie Sautner" }
     ],
     examples: [
       "Metric drops 20% but no explanation provided",
       "Must manually investigate root causes",
       "Want AI to surface anomalies and explain them",
+      "PayPal: Need agent health metrics including hallucination detection and user utterance analysis",
       "Proactive insights would save hours of investigation"
     ]
   },
@@ -746,6 +758,17 @@ export const customersData = [
     workflowUrl: '?view=ibm-workflow',
     uxUrl: '?view=ibm-ux',
     date: 'Dec 22, 2025'
+  },
+  {
+    id: 'paypal',
+    name: 'PayPal',
+    color: 'indigo',
+    tagline: 'SDR Agent Effectiveness & Agent Health',
+    description: 'Need to evaluate SDR agent effectiveness (email quantity, appropriate responses), agent health monitoring (hallucination detection), and accurate adoption/usage metrics',
+    metrics: ['Agent Effectiveness', 'Agent Health', 'Adoption Tracking', 'Custom Dashboards'],
+    workflowUrl: '?view=paypal-workflow',
+    uxUrl: '?view=paypal-ux',
+    date: 'Jan 26, 2026'
   }
 ];
 
