@@ -207,13 +207,15 @@ export const painPointsData = [
       { text: "I wish I could customize the dashboard... add my own columns and filters.", source: "Cellebrite" },
       { text: "All of ours are service agents. Can we flip that filter to something else?", source: "UNCC - Alexandra Flinn" },
       { text: "Customers might want to adjust their own acceptable ranges - requires customization.", source: "FDE Team - Sergio Morales" },
-      { text: "Customer preferred a 'lead nurturing dashboard' focused on the pipeline of agent work, meetings, replies, and cancellations.", source: "PayPal - Jon Wilson" }
+      { text: "Customer preferred a 'lead nurturing dashboard' focused on the pipeline of agent work, meetings, replies, and cancellations.", source: "PayPal - Jon Wilson" },
+      { text: "New toolkit would be helpful if they transfer to service agent configuration but might not cover all future analytics use cases, suggesting a potential gap.", source: "Hard Rock - Elizabeth DeWeese" }
     ],
     examples: [
       "eToro: Cannot edit locked calculated fields in Agent for Studio",
       "UNCC: Default 'service agent' filter useless - need agent name filter",
       "FDE Team: Need Tableau Next Plus license just to customize ranges",
       "PayPal: Need custom 'lead nurturing dashboard' for pipeline, meetings, replies, cancellations",
+      "Hard Rock: Concerned analytics 2.0 may not cover all future use cases after migration",
       "No date range filtering for historical analysis"
     ]
   },
@@ -364,13 +366,15 @@ export const painPointsData = [
       { text: "STDM has so many objects... we need a dedicated person just to build reports.", source: "Nexo" },
       { text: "We had to create a custom data transform to bring in messaging channel.", source: "UNCC - Alexandra Flinn" },
       { text: "Even if you don't have Tableau Next UI, you can build queries on the semantic data model... but navigating it requires deep technical knowledge.", source: "Nir Tzavchon - Allegis call" },
-      { text: "The default agent does not currently provide API access for reports, which is a reason to motivate the customer to move to the 'employee agent' for more detailed reporting.", source: "PayPal - Tye Jones" }
+      { text: "The default agent does not currently provide API access for reports, which is a reason to motivate the customer to move to the 'employee agent' for more detailed reporting.", source: "PayPal - Tye Jones" },
+      { text: "Team was 'burning through' data services credits due to using the older analytics 1.0. Agent Force Default is end-of-sale and relies on data cloud for reporting which consumes a lot of credits.", source: "Hard Rock - JP (Julio)" }
     ],
     examples: [
       "STDM contains 15+ DMOs requiring deep technical knowledge",
       "eToro: Must use Data Cloud console for custom metrics",
       "Allegis: Must navigate SDM manually without Tableau Next access",
       "PayPal: Default agent lacks API access for reports - must migrate to employee agent",
+      "Hard Rock: Using Agent Force Default (end-of-sale) with analytics 1.0 consuming excessive data services credits",
       "Building a simple funnel report takes days of development"
     ]
   },
@@ -388,13 +392,15 @@ export const painPointsData = [
       { text: "Customers approach agent evaluation from a QA/QM perspective, valuing structured scorecards.", source: "Lululemon" },
       { text: "LLM as workbench for validation, not primary source.", source: "Lululemon" },
       { text: "LLM scoring not customizable - customers want to tweak prompts.", source: "FDE Team - Dreamforce" },
-      { text: "Customer needs to evaluate SDR agent effectiveness using metrics like email quantity and appropriate responses.", source: "PayPal - Nathalie Sautner" }
+      { text: "Customer needs to evaluate SDR agent effectiveness using metrics like email quantity and appropriate responses.", source: "PayPal - Nathalie Sautner" },
+      { text: "Data science team is building a judge LLM to continually and more automatically QA the agent. Starting new engagement with external vendor for more robust judge that can evaluate responses and guardrails.", source: "Hard Rock - Elizabeth DeWeese" }
     ],
     examples: [
       "Want to define custom QA criteria per business needs",
       "Need LLM workbench to score conversations against criteria",
       "FDE Team: High/medium/low scoring is fixed",
       "PayPal: Need to evaluate SDR agent effectiveness (email quantity, appropriate responses)",
+      "Hard Rock: Building their own LLM judge for QA, engaging external vendor for robust evaluation",
       "Align AI scoring with company quality standards"
     ]
   },
@@ -643,11 +649,11 @@ export const customersData = [
     name: 'Hard Rock',
     color: 'orange',
     tagline: 'Guest Experience Agent',
-    description: 'Unique user tracking, AI transparency, and session-level visibility needs',
-    metrics: ['Unique Users', 'AI Transparency', 'Authentication Gap'],
+    description: 'Unique user tracking, AI transparency, session-level visibility needs. Using Agent Force Default (end-of-sale) - burning through data services credits with analytics 1.0, needs transition to employee agent for better reporting',
+    metrics: ['Unique Users', 'AI Transparency', 'Authentication Gap', 'Analytics 1.0 Credit Burn', 'Default Agent Migration'],
     workflowUrl: '?view=hardrock-workflow',
     uxUrl: '?view=hardrock-ux',
-    date: 'Dec 4, 2025'
+    date: 'Dec 4, 2025 - Jan 13, 2026'
   },
   {
     id: 'uncc',
