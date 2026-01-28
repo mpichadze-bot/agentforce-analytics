@@ -357,8 +357,8 @@ export const painPointsData = [
     theme: 'troubleshooting',
     title: "Building Custom Reports is Too Difficult",
     description: "Complex underlying STDM is a major pain point for building custom reports and dashboards",
-    customerCount: 14,
-    customers: ["Cellebrite", "Nexo", "Help Agent", "Lululemon", "Pearson", "FedEx", "eToro", "Hard Rock", "UNCC", "Astound", "Oniverse", "Allegis", "Shark Ninja", "PayPal"],
+    customerCount: 15,
+    customers: ["Cellebrite", "Nexo", "Help Agent", "Lululemon", "Pearson", "FedEx", "eToro", "Hard Rock", "UNCC", "Astound", "Oniverse", "Allegis", "Shark Ninja", "PayPal", "Secret Escapes"],
     color: "yellow",
     severity: "critical",
     roadmap: { status: "planned", timeline: "Dreamforce Sept '26", item: "Richer data analysis on Platform Traces" },
@@ -375,6 +375,7 @@ export const painPointsData = [
       "Allegis: Must navigate SDM manually without Tableau Next access",
       "PayPal: Default agent lacks API access for reports - must migrate to employee agent",
       "Hard Rock: Using Agent Force Default (end-of-sale) with analytics 1.0 consuming excessive data services credits",
+      "Secret Escapes: Need analytics 2.0 migration to reduce credit consumption and improve reporting accuracy",
       "Building a simple funnel report takes days of development"
     ]
   },
@@ -693,11 +694,11 @@ export const customersData = [
     name: 'Secret Escapes',
     color: 'rose',
     tagline: 'Metric Discrepancies & Data Export',
-    description: 'Major discrepancies in abandonment/deflection metrics, duplicate session counts, and unclear engagement definitions',
-    metrics: ['10-15% vs ~0% Abandon', 'Duplicate Sessions', 'Engagement Mismatch'],
+    description: 'Major discrepancies in abandonment/deflection metrics, duplicate session counts, and unclear engagement definitions. Need for analytics 2.0 migration to reduce credit consumption and improve reporting accuracy',
+    metrics: ['10-15% vs ~0% Abandon', 'Duplicate Sessions', 'Engagement Mismatch', 'Analytics Migration'],
     workflowUrl: '?view=secretescapes-workflow',
     uxUrl: '?view=secretescapes-ux',
-    date: 'Sep 16 - Dec 19, 2025'
+    date: 'Sep 16, 2025 - Jan 13, 2026'
   },
   {
     id: 'oniverse',
