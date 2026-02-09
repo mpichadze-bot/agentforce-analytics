@@ -46,13 +46,13 @@ const HelpAgentWorkflow = () => {
         <div className="header-badge">Salesforce Help Agent</div>
         <h1 className="help-agent-title">Agentforce Observability</h1>
         <p className="help-agent-subtitle">Answer Quality, Metrics & Root Cause Analysis</p>
-        <div className="help-agent-date">December 15, 2025</div>
+        <div className="help-agent-date">Jan 28, 2026</div>
         <div className="scale-challenge">
           <div className="scale-label">Scale Challenge:</div>
           <div className="scale-numbers">
-            <span className="current">250K/week</span>
+            <span className="current">320K/month</span>
             <ArrowRight size={20} />
-            <span className="goal">2M/month</span>
+            <span className="goal">2.1M/month</span>
           </div>
         </div>
       </header>
@@ -79,10 +79,12 @@ const HelpAgentWorkflow = () => {
             {activeNode === 'answer-quality' && (
               <div className="team-details">
                 <ul>
-                  <li>Evaluations function reviews how conversations failed</li>
-                  <li>Focus on retrieval failures vs subject matter</li>
-                  <li>"Agents testing agents" custom tool</li>
-                  <li>Synthetic + real conversations</li>
+                  <li>Maya Robles-Wong's team (10 people) - domain expert for evaluation</li>
+                  <li>Binary pass/fail on 3 attributes: correct, complete, relevant</li>
+                  <li>"Agents testing agents" custom tool (replacing Testing Center)</li>
+                  <li>~900 synthetic utterances vetted by SMEs</li>
+                  <li>Gemini prompt derives acceptance criteria</li>
+                  <li>2–4 week lag in analyzing utterance performance</li>
                 </ul>
               </div>
             )}
@@ -323,6 +325,7 @@ const HelpAgentWorkflow = () => {
                 <p>Applied to synthetic utterances (not real conversations yet)</p>
                 <p>Monthly synthetic baseline report</p>
                 <p>Manually determined failure taxonomy (currently)</p>
+                <p><strong>Manual review:</strong> Download report → upload to custom tool → run evaluations</p>
               </div>
             )}
           </div>
@@ -383,6 +386,86 @@ const HelpAgentWorkflow = () => {
         <ArrowDown size={24} />
       </div>
 
+      {/* Manual Review & Semantic Evaluation */}
+      <div className="workflow-section">
+        <div className="section-label metrics-section">Manual Review & Semantic Evaluation</div>
+        
+        <section className="llm-flow" style={{ flexWrap: 'wrap', gap: '1rem' }}>
+          <div 
+            className={`llm-card ${activeNode === 'manual-review' ? 'active' : ''}`}
+            onClick={() => handleNodeClick('manual-review')}
+            onKeyDown={(e) => handleNodeKeyDown(e, 'manual-review')}
+            tabIndex={0}
+            role="button"
+          >
+            <div className="llm-icon">
+              <FileText size={28} />
+            </div>
+            <h4>1. Utterance Repository</h4>
+            <p>~900 synthetic utterances from top case drivers</p>
+            {activeNode === 'manual-review' && (
+              <div className="llm-details">
+                <p>Vetted by subject matter experts (product, content)</p>
+                <p>Best content source per utterance</p>
+                <p>Gemini prompt derives acceptance criteria for correct/complete/relevant</p>
+              </div>
+            )}
+          </div>
+
+          <ArrowRight className="llm-arrow" size={20} />
+
+          <div 
+            className={`llm-card ${activeNode === 'manual-eval' ? 'active' : ''}`}
+            onClick={() => handleNodeClick('manual-eval')}
+            onKeyDown={(e) => handleNodeKeyDown(e, 'manual-eval')}
+            tabIndex={0}
+            role="button"
+          >
+            <div className="llm-icon">
+              <Search size={28} />
+            </div>
+            <h4>2. Manual Evaluation</h4>
+            <p>Upload to custom tool, run LLM evaluations</p>
+            {activeNode === 'manual-eval' && (
+              <div className="llm-details">
+                <p>Download spreadsheet → upload to "agents testing agents" tool</p>
+                <p>Folders: all correct, all complete, all relevant, all three combined</p>
+                <p><strong>2–4 week lag</strong> before analysis reaches team</p>
+                <p>No dashboard for utterance performance – lives in Google spreadsheet</p>
+              </div>
+            )}
+          </div>
+
+          <ArrowRight className="llm-arrow" size={20} />
+
+          <div 
+            className={`llm-card ${activeNode === 'manual-report' ? 'active' : ''}`}
+            onClick={() => handleNodeClick('manual-report')}
+            onKeyDown={(e) => handleNodeKeyDown(e, 'manual-report')}
+            tabIndex={0}
+            role="button"
+          >
+            <div className="llm-icon">
+              <BarChart3 size={28} />
+            </div>
+            <h4>3. Report & Stakeholder Handoff</h4>
+            <p>LLM rationale + fail reason by cloud product</p>
+            {activeNode === 'manual-report' && (
+              <div className="llm-details">
+                <p>Download report with LLM rationale for pass/fail</p>
+                <p>Organized by cloud product for stakeholders</p>
+                <p>Fail reason categorization manual (capacity-based)</p>
+                <p>V2: automated issue classification with LLM in development</p>
+              </div>
+            )}
+          </div>
+        </section>
+      </div>
+
+      <div className="flow-arrow">
+        <ArrowDown size={24} />
+      </div>
+
       {/* Pain Points */}
       <div className="workflow-section">
         <div className="section-label pain-section">Critical Pain Points</div>
@@ -390,13 +473,14 @@ const HelpAgentWorkflow = () => {
         <section className="pain-points-grid">
           <div className="pain-point-card">
             <AlertTriangle size={24} />
-            <h4>Lack of Tooling</h4>
+            <h4>Lack of Tooling & Manual Review</h4>
             <p>"Currently lack robust tooling for investigation"</p>
             <ul>
               <li>Manual process examining session traces</li>
-              <li>No way to show relevant chunks</li>
-              <li>Can't see possible conflicts</li>
-              <li>Requires manual testing & documentation</li>
+              <li>2–4 week lag: semantic evaluation lives in Google spreadsheet</li>
+              <li>No dashboard for utterance performance – must manually download & analyze</li>
+              <li>No way to show relevant chunks at scale</li>
+              <li>Must copy JSON from session tracing + Slackbot to extract article metadata</li>
             </ul>
           </div>
 
@@ -495,7 +579,7 @@ const HelpAgentWorkflow = () => {
       <footer className="help-agent-footer">
         <div className="footer-content">
           <span className="footer-label">Source:</span>
-          <span className="footer-value">Help Agent / Agentforce Observability - Dec 15, 2025</span>
+          <span className="footer-value">Help Agent / Agentforce Observability - Jan 28, 2026</span>
         </div>
         <a 
           href="?view=help-agent-ux" 

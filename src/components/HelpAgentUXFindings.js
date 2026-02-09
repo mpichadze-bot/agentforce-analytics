@@ -593,7 +593,7 @@ const HelpAgentUXFindings = () => {
       <footer className="help-ux-footer">
         <div className="footer-content">
           <span className="footer-label">Source:</span>
-          <span className="footer-value">Help Agent / Agentforce Observability - Dec 15, 2025</span>
+          <span className="footer-value">Help Agent / Agentforce Observability - Jan 28, 2026</span>
         </div>
         <a 
           href="?view=help-agent-workflow" 

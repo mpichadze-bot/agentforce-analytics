@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agentforce Observability - Interactive Personas</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: #1a1a24;
+            --bg-card-hover: #22222f;
+            --accent-orange: #ff6b6b;
+            --accent-purple: #a855f7;
+            --accent-cyan: #4ecdc4;
+            --accent-yellow: #fbbf24;
+            --accent-green: #51cf66;
+            --text-primary: #f4f4f5;
+            --text-secondary: #a1a1aa;
+            --text-muted: #71717a;
+            --border-color: #27272a;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 40px 20px;
+            background-image: 
+                radial-gradient(ellipse at 20% 20%, rgba(255, 107, 107, 0.05) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(78, 205, 196, 0.05) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(168, 85, 247, 0.03) 0%, transparent 70%);
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, var(--accent-orange), var(--accent-purple), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            font-family: 'JetBrains Mono', monospace;
+            margin-top: 10px;
+        }
+
+        .methodology-badge {
+            display: inline-block;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: var(--accent-cyan);
+            margin-top: 15px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .personas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .persona-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 0;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            height: 400px;
+            perspective: 1000px;
+        }
+
+        .persona-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .persona-card.flipped .persona-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .persona-card-front,
+        .persona-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .persona-card-back {
+            transform: rotateY(180deg);
+            overflow-y: auto;
+        }
+
+        .persona-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-orange), var(--accent-purple));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 10;
+        }
+
+        .persona-card:hover::before {
+            opacity: 1;
+        }
+
+        .persona-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 16px;
+            gap: 12px;
+        }
+
+        .persona-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0;
+            flex: 1;
+        }
+
+        .persona-badge {
+            background: var(--bg-secondary);
+            color: var(--accent-cyan);
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            font-family: 'JetBrains Mono', monospace;
+            white-space: nowrap;
+        }
+
+        .persona-description {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            flex: 1;
+        }
+
+        .persona-attributes {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .attribute {
+            background: var(--bg-secondary);
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+        }
+
+        .attribute-label {
+            color: var(--text-muted);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .attribute-value {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .flip-hint {
+            position: absolute;
+            bottom: 16px;
+            left: 24px;
+            right: 24px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            font-family: 'JetBrains Mono', monospace;
+            padding: 8px;
+            background: var(--bg-secondary);
+            border-radius: 6px;
+            opacity: 0.7;
+        }
+
+        .persona-section {
+            margin-bottom: 20px;
+        }
+
+        .section-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            font-weight: 600;
+            margin-bottom: 12px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .cot-section {
+            background: var(--bg-secondary);
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            border-left: 3px solid var(--accent-purple);
+        }
+
+        .cot-step {
+            margin-bottom: 16px;
+        }
+
+        .cot-step-title {
+            font-weight: 600;
+            color: var(--accent-purple);
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .cot-step-content {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            line-height: 1.6;
+            padding-left: 12px;
+        }
+
+        .cot-step-content ul {
+            margin-top: 8px;
+            padding-left: 20px;
+        }
+
+        .cot-step-content li {
+            margin-bottom: 4px;
+        }
+
+        .job-to-be-done {
+            background: var(--bg-secondary);
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            border-left: 3px solid var(--accent-orange);
+        }
+
+        .job-title {
+            font-weight: 600;
+            color: var(--accent-orange);
+            margin-bottom: 12px;
+            font-size: 1rem;
+        }
+
+        .job-description {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.7;
+            margin-bottom: 12px;
+        }
+
+        .job-outcomes {
+            margin-top: 12px;
+        }
+
+        .job-outcomes-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+        }
+
+        .job-outcomes-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .job-outcomes-list li {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            padding: 4px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .job-outcomes-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--accent-green);
+            font-weight: bold;
+        }
+
+        .customers-list, .quotes-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .customers-list li, .quotes-list li {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            padding: 6px 0;
+            padding-left: 20px;
+            position: relative;
+            line-height: 1.5;
+        }
+
+        .customers-list li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--accent-cyan);
+            font-size: 1.2rem;
+        }
+
+        .quotes-list li::before {
+            content: '"';
+            position: absolute;
+            left: 0;
+            color: var(--accent-purple);
+            font-size: 1.2rem;
+        }
+
+        .customer-name {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .customer-contacts {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            margin-left: 8px;
+        }
+
+        .quote-text {
+            font-style: italic;
+            color: var(--text-secondary);
+        }
+
+        .technical-depth {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .depth-very-high { background: rgba(255, 107, 107, 0.2); color: var(--accent-orange); }
+        .depth-high { background: rgba(168, 85, 247, 0.2); color: var(--accent-purple); }
+        .depth-medium-high { background: rgba(78, 205, 196, 0.2); color: var(--accent-cyan); }
+        .depth-medium { background: rgba(251, 191, 36, 0.2); color: var(--accent-yellow); }
+        .depth-low-medium { background: rgba(81, 207, 102, 0.2); color: var(--accent-green); }
+
+        .stats-bar {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 30px;
+            margin-top: 40px;
+        }
+
+        .stats-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 24px;
+            text-align: center;
+            color: var(--text-primary);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-orange), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        @media (max-width: 768px) {
+            .personas-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .persona-attributes {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Interactive Customer Personas</h1>
+            <p>Click any persona card to flip and see deep CoT + ReAct analysis</p>
+            <span class="methodology-badge">Chain of Thought + ReAct Methodology</span>
+        </div>
+
+        <div class="personas-grid" id="personasGrid">
+            <!-- Personas will be dynamically inserted here -->
+        </div>
+
+        <div class="stats-bar">
+            <div class="stats-title">Persona Analysis Summary</div>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">7</div>
+                    <div class="stat-label">Refined Personas</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">20</div>
+                    <div class="stat-label">Total Customers</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">35+</div>
+                    <div class="stat-label">Key Contacts</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">23</div>
+                    <div class="stat-label">Pain Points</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const personasData = [
+            {
+                id: 'analytics-manager',
+                title: 'Analytics & Reporting Manager',
+                description: 'Owns data accuracy, reporting, and metric definitions. Questions metric calculations and validates data trustworthiness.',
+                technicalDepth: 'medium',
+                decisionAuthority: 'high',
+                painTolerance: 'low',
+                primaryGoal: 'Ensure data accuracy and trustworthiness',
+                customers: [
+                    { name: 'Secret Escapes', contacts: ['Laura Meschi', 'Daniel Measures'] },
+                    { name: 'Pearson', contacts: ['Nicole Lozano'] },
+                    { name: 'eToro', contacts: ['Avi Kuzi'] },
+                    { name: 'Shark Ninja', contacts: ['Carolin'] },
+                    { name: 'PayPal', contacts: ['Nathalie Sautner'] }
+                ],
+                jobToBeDone: {
+                    core: 'Provide accurate, trustworthy metrics that align with internal business measurements and enable confident decision-making.',
+                    context: 'They are responsible for reporting to leadership and stakeholders. When metrics don\'t match internal tracking, trust erodes and decisions become risky.',
+                    motivation: 'Need to validate that platform metrics reflect reality, not just platform definitions. Must reconcile discrepancies between Salesforce metrics and internal systems.',
+                    desiredOutcome: [
+                        'Metrics that match internal tracking systems',
+                        'Clear definitions for all calculated fields',
+                        'Ability to drill down from aggregate to session-level data',
+                        'Confidence in data accuracy for executive reporting'
+                    ]
+                },
+                cotAnalysis: {
+                    observe: [
+                        'Dashboard shows 1-2% abandonment vs internal tracking of 10-15%',
+                        'Engagement definitions differ between platform and business needs',
+                        'Active user calculations are incorrect (6% vs actual 84%)',
+                        'No way to validate metrics by drilling into sessions'
+                    ],
+                    think: [
+                        'Metric discrepancies erode trust in entire platform',
+                        'Definitions are driven by Salesforce commercial model, not business needs',
+                        'Cannot validate accuracy without session-level access',
+                        'Need alignment between platform metrics and business KPIs'
+                    ],
+                    act: [
+                        'Request metric definition documentation',
+                        'Compare platform metrics with internal tracking',
+                        'Manually validate by searching session IDs',
+                        'Request customization capabilities for business-specific metrics'
+                    ]
+                }
+            },
+            {
+                id: 'technical-lead',
+                title: 'Technical Lead / Platform Engineer & Cost Optimizer',
+                description: 'Implements technical solutions, manages data models, optimizes systems and costs. Creates custom transforms, navigates complex data architectures, and optimizes credit consumption.',
+                technicalDepth: 'very-high',
+                decisionAuthority: 'medium-high',
+                painTolerance: 'medium',
+                primaryGoal: 'Build reliable, efficient technical solutions while optimizing costs',
+                customers: [
+                    { name: 'Allegis', contacts: ['Abhijit Mahato', 'Barry', 'Jeff Grosse'] },
+                    { name: 'Hard Rock', contacts: ['JP (Julio)', 'Ethan Zayer', 'Barry'] },
+                    { name: 'UNCC', contacts: ['Alexandra Flinn'] },
+                    { name: 'PayPal', contacts: ['Tye Jones'] },
+                    { name: 'Nexo', contacts: [] },
+                    { name: 'Secret Escapes', contacts: [] }
+                ],
+                jobToBeDone: {
+                    core: 'Build and maintain efficient, scalable data pipelines and reports that integrate seamlessly with existing systems while optimizing resource consumption and costs.',
+                    context: 'They manage complex data architectures with multiple objects (15+ DMOs in STDM). Must create custom solutions when out-of-box features don\'t meet needs. Also responsible for monitoring and reducing credit consumption.',
+                    motivation: 'Need to deliver custom reporting capabilities without requiring dedicated resources. Must optimize credit consumption, ensure reliable integrations, and manage analytics version migrations to reduce costs.',
+                    desiredOutcome: [
+                        'Simplified data model navigation',
+                        'Efficient custom report creation',
+                        'Reduced credit consumption',
+                        'API access for programmatic reporting',
+                        'Clear documentation of data model structure',
+                        'Real-time consumption visibility',
+                        'Optimized data refresh strategies',
+                        'Successful analytics migration'
+                    ]
+                },
+                cotAnalysis: {
+                    observe: [
+                        'STDM has 15+ DMOs requiring deep technical knowledge',
+                        'Must create custom data transforms for basic needs (e.g., messaging channel)',
+                        'Analytics 1.0 consuming excessive data services credits',
+                        'Default agent lacks API access for reports',
+                        'Full refreshes instead of incremental updates',
+                        'Team burning through data services credits',
+                        'Need real-time consumption analysis during development'
+                    ],
+                    think: [
+                        'Data model complexity requires dedicated expertise',
+                        'Credit consumption unsustainable with current approach',
+                        'Need migration path from analytics 1.0 to 2.0',
+                        'API access critical for automation and integration',
+                        'Incremental updates would reduce costs significantly',
+                        'Cost optimization requires better tools and visibility',
+                        'Analytics migration critical for cost reduction'
+                    ],
+                    act: [
+                        'Create custom data transforms for missing dimensions',
+                        'Migrate from analytics 1.0 to 2.0 to reduce credits',
+                        'Build SDM-based custom reports',
+                        'Request API access for programmatic reporting',
+                        'Optimize data refresh strategies',
+                        'Monitor and reduce credit consumption',
+                        'Request real-time consumption visibility'
+                    ]
+                }
+            },
+            {
+                id: 'data-scientist',
+                title: 'Data Scientist / ML Engineer',
+                description: 'Builds evaluation models, analyzes patterns, creates custom LLM judges. Works with ML/AI to create sophisticated evaluation capabilities.',
+                technicalDepth: 'very-high',
+                decisionAuthority: 'medium',
+                painTolerance: 'medium',
+                primaryGoal: 'Create sophisticated evaluation and analysis capabilities',
+                customers: [
+                    { name: 'Hard Rock', contacts: ['Elizabeth DeWeese'] },
+                    { name: 'NVIDIA', contacts: ['Yana Irani'] },
+                    { name: 'Lululemon', contacts: [] },
+                    { name: 'Shark Ninja', contacts: ['Stanley Konopka'] }
+                ],
+                jobToBeDone: {
+                    core: 'Build automated, sophisticated evaluation systems that can continuously assess agent performance using custom LLM judges and pattern detection.',
+                    context: 'They need to go beyond basic metrics to understand conversation patterns, detect anomalies, and create custom evaluation frameworks aligned with business needs.',
+                    motivation: 'Platform\'s built-in evaluation is insufficient. Need custom tagging, pattern detection, and LLM-as-judge capabilities to build robust QA systems.',
+                    desiredOutcome: [
+                        'Custom LLM evaluation frameworks',
+                        'Pattern detection across conversations',
+                        'Custom tagging and classification capabilities',
+                        'Integration with external ML vendors',
+                        'Automated quality scoring aligned with business criteria'
+                    ]
+                },
+                cotAnalysis: {
+                    observe: [
+                        'Building custom judge LLM to continually QA the agent',
+                        'Platform lacks custom evaluation capabilities',
+                        'Need to analyze conversation patterns and user behavior',
+                        'Starting engagement with external vendor for robust evaluation',
+                        'Understanding questions per session crucial for behavior analysis'
+                    ],
+                    think: [
+                        'Built-in evaluation too generic for business needs',
+                        'Need custom scoring aligned with company quality standards',
+                        'Pattern detection requires sophisticated ML capabilities',
+                        'External vendors may provide more robust solutions',
+                        'Custom tagging essential for business-specific analysis'
+                    ],
+                    act: [
+                        'Build custom LLM judge internally',
+                        'Engage external vendors for robust evaluation',
+                        'Request custom tagging and evaluation APIs',
+                        'Analyze conversation patterns for insights',
+                        'Create evaluation frameworks aligned with business needs'
+                    ]
+                }
+            },
+            {
+                id: 'qa-manager',
+                title: 'QA / Quality Manager',
+                description: 'Ensures agent quality, manages evaluation frameworks, defines quality standards. Focuses on consistent quality and structured evaluation.',
+                technicalDepth: 'medium',
+                decisionAuthority: 'high',
+                painTolerance: 'low',
+                primaryGoal: 'Ensure consistent quality and evaluation',
+                customers: [
+                    { name: 'Lululemon', contacts: [] },
+                    { name: 'Oniverse', contacts: ['Elena Maio'] },
+                    { name: 'Hard Rock', contacts: ['Elizabeth DeWeese'] },
+                    { name: 'PayPal', contacts: ['Nathalie Sautner'] },
+                    { name: 'FDE Team', contacts: [] }
+                ],
+                jobToBeDone: {
+                    core: 'Maintain consistent agent quality through structured evaluation processes and custom scorecards that align with business quality standards.',
+                    context: 'They manage QA processes and need to evaluate agent responses against business-specific criteria. Current platform evaluation is too generic.',
+                    motivation: 'Need custom QA scorecards and evaluation frameworks. Must identify low-quality sessions efficiently and track quality metrics over time.',
+                    desiredOutcome: [
+                        'Custom QA scorecards aligned with business needs',
+                        'Structured evaluation frameworks',
+                        'Efficient identification of low-quality sessions',
+                        'Quality metrics tracking and reporting',
+                        'Integration with existing QA processes'
+                    ]
+                },
+                cotAnalysis: {
+                    observe: [
+                        'Customers approach evaluation from QA/QM perspective',
+                        'Manually create Excel files for each low-score session',
+                        'Need to evaluate agent effectiveness (email quantity, responses)',
+                        'Platform LLM scoring not customizable',
+                        'Broken feedback mechanisms prevent resolution rate calculation'
+                    ],
+                    think: [
+                        'Structured scorecards essential for consistent evaluation',
+                        'Manual processes inefficient and time-consuming',
+                        'Need customization to align with business quality standards',
+                        'Feedback mechanisms critical for quality metrics',
+                        'Evaluation must go beyond generic scoring'
+                    ],
+                    act: [
+                        'Request custom QA scorecard capabilities',
+                        'Create manual Excel workarounds for evaluation',
+                        'Define business-specific quality criteria',
+                        'Request customizable LLM evaluation prompts',
+                        'Work around broken feedback mechanisms'
+                    ]
+                }
+            },
+            {
+                id: 'product-manager',
+                title: 'Product Manager / Strategic Owner',
+                description: 'Owns product strategy, business outcomes, user adoption, and strategic vision. Focuses on business value, ROI, strategic direction, and innovation. Defines north star workflows and drives innovation initiatives.',
+                technicalDepth: 'low-medium to high',
+                decisionAuthority: 'very-high',
+                painTolerance: 'low',
+                primaryGoal: 'Drive business value, adoption, and strategic innovation',
+                customers: [
+                    { name: 'PayPal', contacts: ['Nathalie Sautner', 'Jon Wilson'] },
+                    { name: 'Shark Ninja', contacts: ['Stanley Konopka'] },
+                    { name: 'Hard Rock', contacts: ['Shira Gershoni'] },
+                    { name: 'NVIDIA', contacts: ['Maor Goldfarb'] },
+                    { name: 'Lululemon', contacts: [] }
+                ],
+                jobToBeDone: {
+                    core: 'Drive business value through agent effectiveness, user adoption, strategic alignment, and innovation. Define north star workflows and drive strategic vision.',
+                    context: 'They own the product strategy and need to demonstrate ROI. Must understand adoption patterns, agent effectiveness, and business impact. Also responsible for defining ideal workflows and driving innovation.',
+                    motivation: 'Need visibility into adoption (who\'s using it, how intensively), agent effectiveness metrics aligned with business goals, custom dashboards for strategic decision-making, and capabilities for what-if analysis and AI-driven insights.',
+                    desiredOutcome: [
+                        'Accurate adoption and usage metrics',
+                        'Custom dashboards aligned with business goals',
+                        'Agent effectiveness evaluation',
+                        'Business ROI visibility',
+                        'Strategic insights for decision-making',
+                        'What-if analysis and simulation capabilities',
+                        'AI-driven insights and recommendations',
+                        'Call-to-action features for workflows',
+                        'North star workflow support'
+                    ]
+                },
+                cotAnalysis: {
+                    observe: [
+                        'Need to evaluate SDR agent effectiveness (email quantity, responses)',
+                        'Prefer lead nurturing dashboard focused on pipeline',
+                        'Trying to understand adoption: many users vs intensive use by few',
+                        'Need agent health metrics (hallucination detection)',
+                        'Dashboards lack customization for business goals',
+                        'North star workflow: Score → Classify → Root Cause → Simulate Fix',
+                        'Need what-if analysis to simulate impact of changes',
+                        'Lack of AI-driven insights',
+                        'No call-to-action features'
+                    ],
+                    think: [
+                        'Adoption metrics critical for product strategy',
+                        'Business-specific dashboards essential for decision-making',
+                        'Agent effectiveness must align with business KPIs',
+                        'Health monitoring prevents issues before they impact users',
+                        'Customization enables strategic insights',
+                        'Strategic workflows require simulation capabilities',
+                        'AI insights essential for proactive improvement',
+                        'Call-to-action features enable action from insights'
+                    ],
+                    act: [
+                        'Request custom dashboards for business goals',
+                        'Track adoption and usage patterns',
+                        'Evaluate agent effectiveness against business metrics',
+                        'Request agent health monitoring capabilities',
+                        'Define business-specific success criteria',
+                        'Define north star workflows',
+                        'Request what-if analysis capabilities',
+                        'Request AI-driven insights',
+                        'Request call-to-action features'
+                    ]
+                }
+            },
+            {
+                id: 'operations-manager',
+                title: 'Operations Manager / Analyst',
+                description: 'Manages day-to-day operations, creates manual workarounds, handles operational efficiency. High tolerance for workarounds, focuses on getting things done.',
+                technicalDepth: 'low-medium',
+                decisionAuthority: 'medium',
+                painTolerance: 'high',
+                primaryGoal: 'Maintain operational efficiency',
+                customers: [
+                    { name: 'Indeed', contacts: [] },
+                    { name: 'Cellebrite', contacts: [] },
+                    { name: 'Oniverse', contacts: ['Elena Maio'] },
+                    { name: 'Shark Ninja', contacts: ['Stanley Konopka'] }
+                ],
+                jobToBeDone: {
+                    core: 'Maintain day-to-day operational efficiency by identifying issues, analyzing root causes, and ensuring smooth agent operations.',
+                    context: 'They handle operational workflows and need to quickly identify and resolve issues. Current tools require extensive manual work.',
+                    motivation: 'Need efficient ways to identify problems, analyze root causes, and track operational metrics without spending hours on manual work.',
+                    desiredOutcome: [
+                        'Efficient root cause analysis',
+                        'Reduced manual Excel workarounds',
+                        'Quick identification of problem sessions',
+                        'Operational metrics visibility',
+                        'Streamlined troubleshooting workflows'
+                    ]
+                },
+                cotAnalysis: {
+                    observe: [
+                        'Export everything to Excel and manually tag sessions',
+                        'Spend hours clicking through sessions one by one',
+                        'Slicing and dicing manual reports from data cloud',
+                        'Cannot identify why conversations failed',
+                        'Navigation prevents easy access to session details'
+                    ],
+                    think: [
+                        'Manual processes extremely time-consuming',
+                        'Need automated pattern detection',
+                        'Root cause analysis requires better tools',
+                        'Navigation issues prevent efficient troubleshooting',
+                        'Workarounds necessary but inefficient'
+                    ],
+                    act: [
+                        'Create manual Excel workarounds',
+                        'Click through sessions individually',
+                        'Export data for external analysis',
+                        'Request better navigation and drill-down capabilities',
+                        'Build external tools for pattern detection'
+                    ]
+                }
+            },
+            {
+                id: 'business-analyst',
+                title: 'Business Analyst',
+                description: 'Translates business needs to technical requirements, creates reports, analyzes requirements. Bridges business and technical worlds.',
+                technicalDepth: 'medium',
+                decisionAuthority: 'medium',
+                painTolerance: 'medium',
+                primaryGoal: 'Bridge business and technical needs',
+                customers: [
+                    { name: 'Cellebrite', contacts: [] },
+                    { name: 'Nexo', contacts: [] },
+                    { name: 'Astound', contacts: [] },
+                    { name: 'FedEx', contacts: [] },
+                    { name: 'Secret Escapes', contacts: ['Daniel Measures'] }
+                ],
+                jobToBeDone: {
+                    core: 'Translate business requirements into actionable reports and dashboards that provide stakeholders with meaningful insights.',
+                    context: 'They bridge business and technical teams, creating reports that stakeholders can understand and use for decision-making.',
+                    motivation: 'Need customizable dashboards, effective visualizations, and sharing capabilities to communicate insights to stakeholders.',
+                    desiredOutcome: [
+                        'Customizable dashboards and reports',
+                        'Effective visualizations for stakeholders',
+                        'Easy sharing capabilities',
+                        'Business-aligned metric definitions',
+                        'Stakeholder-friendly reporting'
+                    ]
+                },
+                cotAnalysis: {
+                    observe: [
+                        'Wish to customize dashboard with own columns and filters',
+                        'Service managers prefer actual numbers over percentages',
+                        'Cannot reliably calculate resolution rate (broken feedback)',
+                        'Visualizations ineffective for business users',
+                        'Sharing capabilities unclear'
+                    ],
+                    think: [
+                        'Customization essential for business needs',
+                        'Visualizations must match stakeholder preferences',
+                        'Broken features prevent accurate reporting',
+                        'Sharing critical for stakeholder communication',
+                        'Business users need simple, clear visualizations'
+                    ],
+                    act: [
+                        'Request dashboard customization capabilities',
+                        'Use numbers instead of percentages where preferred',
+                        'Work around broken feedback mechanisms',
+                        'Request better visualization options',
+                        'Clarify sharing and licensing requirements'
+                    ]
+                }
+            }
+        ];
+
+        function renderPersonaCard(persona) {
+            const depthClass = `depth-${persona.technicalDepth.replace('-', '-')}`;
+            const customersHtml = persona.customers.map(c => 
+                `<li><span class="customer-name">${c.name}</span>${c.contacts.length > 0 ? ` <span class="customer-contacts">(${c.contacts.join(', ')})</span>` : ''}</li>`
+            ).join('');
+
+            return `
+                <div class="persona-card" onclick="this.classList.toggle('flipped')">
+                    <div class="persona-card-inner">
+                        <div class="persona-card-front">
+                            <div class="persona-header">
+                                <h3 class="persona-title">${persona.title}</h3>
+                                <span class="persona-badge">${persona.customers.length} customers</span>
+                            </div>
+                            <p class="persona-description">${persona.description}</p>
+                            <div class="persona-attributes">
+                                <div class="attribute">
+                                    <div class="attribute-label">Technical Depth</div>
+                                    <div class="attribute-value"><span class="technical-depth ${depthClass}">${persona.technicalDepth}</span></div>
+                                </div>
+                                <div class="attribute">
+                                    <div class="attribute-label">Decision Authority</div>
+                                    <div class="attribute-value">${persona.decisionAuthority}</div>
+                                </div>
+                                <div class="attribute">
+                                    <div class="attribute-label">Pain Tolerance</div>
+                                    <div class="attribute-value">${persona.painTolerance}</div>
+                                </div>
+                                <div class="attribute">
+                                    <div class="attribute-label">Primary Goal</div>
+                                    <div class="attribute-value">${persona.primaryGoal}</div>
+                                </div>
+                            </div>
+                            <div class="flip-hint">Click to see deep analysis →</div>
+                        </div>
+                        <div class="persona-card-back">
+                            <div class="job-to-be-done">
+                                <div class="job-title">🎯 Job To Be Done</div>
+                                <div class="job-description"><strong>Core:</strong> ${persona.jobToBeDone.core}</div>
+                                <div class="job-description"><strong>Context:</strong> ${persona.jobToBeDone.context}</div>
+                                <div class="job-description"><strong>Motivation:</strong> ${persona.jobToBeDone.motivation}</div>
+                                <div class="job-outcomes">
+                                    <div class="job-outcomes-title">Desired Outcomes:</div>
+                                    <ul class="job-outcomes-list">
+                                        ${persona.jobToBeDone.desiredOutcome.map(o => `<li>${o}</li>`).join('')}
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="cot-section">
+                                <div class="section-label">CoT + ReAct Analysis</div>
+                                <div class="cot-step">
+                                    <div class="cot-step-title">🔍 OBSERVE</div>
+                                    <div class="cot-step-content">
+                                        <ul>
+                                            ${persona.cotAnalysis.observe.map(o => `<li>${o}</li>`).join('')}
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="cot-step">
+                                    <div class="cot-step-title">💭 THINK</div>
+                                    <div class="cot-step-content">
+                                        <ul>
+                                            ${persona.cotAnalysis.think.map(t => `<li>${t}</li>`).join('')}
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="cot-step">
+                                    <div class="cot-step-title">⚡ ACT</div>
+                                    <div class="cot-step-content">
+                                        <ul>
+                                            ${persona.cotAnalysis.act.map(a => `<li>${a}</li>`).join('')}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="persona-section">
+                                <div class="section-label">Representative Customers</div>
+                                <ul class="customers-list">
+                                    ${customersHtml}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Render all personas
+        document.getElementById('personasGrid').innerHTML = personasData.map(renderPersonaCard).join('');
+    </script>
+</body>
+</html>

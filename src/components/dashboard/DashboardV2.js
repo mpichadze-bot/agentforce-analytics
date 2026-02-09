@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import {
   AlertTriangle, Users, Layers, TrendingUp, ChevronDown, ChevronUp,
-  ArrowUpRight, Calculator, Settings, Search, Zap, Calendar, Clock
+  ArrowUpRight, Calculator, Settings, Search, Zap, Calendar, Clock, UserCircle
 } from 'lucide-react';
 import { AIProvider } from '../ai/AIProvider';
 import CommandBar from '../ai/CommandBar';
@@ -144,14 +144,55 @@ const DashboardV2 = () => {
             </p>
           </header>
 
-          {/* Command Bar */}
-          <div style={{ marginBottom: 'var(--space-6)' }}>
-            <CommandBar
-              painPoints={painPointsData}
-              customers={customersData}
-              onSelectPainPoint={handleSelectPainPoint}
-              onSelectCustomer={handleSelectCustomer}
-            />
+          {/* Command Bar with Personas Button */}
+          <div style={{ 
+            marginBottom: 'var(--space-6)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 'var(--space-3)'
+          }}>
+            <div style={{ flex: 1 }}>
+              <CommandBar
+                painPoints={painPointsData}
+                customers={customersData}
+                onSelectPainPoint={handleSelectPainPoint}
+                onSelectCustomer={handleSelectCustomer}
+              />
+            </div>
+            <a
+              href="/personas.html"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 'var(--space-2)',
+                padding: 'var(--space-2) var(--space-4)',
+                background: 'var(--bg-card)',
+                border: '1px solid var(--border-color)',
+                borderRadius: '8px',
+                color: 'var(--text-primary)',
+                textDecoration: 'none',
+                fontSize: '0.9rem',
+                fontWeight: 500,
+                transition: 'all 0.2s ease',
+                whiteSpace: 'nowrap',
+                cursor: 'pointer'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = 'var(--bg-card-hover)';
+                e.currentTarget.style.borderColor = 'var(--accent-purple)';
+                e.currentTarget.style.color = 'var(--accent-purple)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'var(--bg-card)';
+                e.currentTarget.style.borderColor = 'var(--border-color)';
+                e.currentTarget.style.color = 'var(--text-primary)';
+              }}
+            >
+              <UserCircle size={18} />
+              Personas
+            </a>
           </div>
 
           {/* Theme Filter Pills */}

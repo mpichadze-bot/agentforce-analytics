@@ -84,16 +84,17 @@ export const painPointsData = [
     rank: 3,
     theme: 'metrics',
     title: "Irrelevant Out-of-Box Metrics",
-    description: "Web chat metrics unusable for channels like Slack, leading to misleading data",
-    customerCount: 5,
-    customers: ["Astound", "UNCC", "Hard Rock", "FedEx", "Oniverse"],
+    description: "Web chat metrics unusable for channels like Slack, leading to misleading data. Out-of-box metrics don't align with business definitions or strategic KPIs",
+    customerCount: 6,
+    customers: ["Astound", "UNCC", "Hard Rock", "FedEx", "Oniverse", "Help Agent"],
     color: "orange",
     severity: "high",
     roadmap: null,
     quotes: [
       { text: "Web chat metrics are unusable for channels like Slack, leading to misleading data.", source: "Astound" },
       { text: "Unique user metrics would not work well with the current service agent type.", source: "Astound" },
-      { text: "Any reporting based on Agent Force Analytics, we need to be able to filter by messaging channel.", source: "UNCC - Alexandra Flinn" }
+      { text: "Any reporting based on Agent Force Analytics, we need to be able to filter by messaging channel.", source: "UNCC - Alexandra Flinn" },
+      { text: "None of these out-of-box metrics are very helpful for us today. The out-of-box escalation rate is misleading - it only counts live chat transfer, missing asynchronous case creation. Our real escalation rate is ~30%, not 7%.", source: "Help Agent - Zachary Stauber" }
     ],
     examples: [
       "Astound: Service agent metrics meaningless for Slack channel",
@@ -208,7 +209,9 @@ export const painPointsData = [
       { text: "All of ours are service agents. Can we flip that filter to something else?", source: "UNCC - Alexandra Flinn" },
       { text: "Customers might want to adjust their own acceptable ranges - requires customization.", source: "FDE Team - Sergio Morales" },
       { text: "Customer preferred a 'lead nurturing dashboard' focused on the pipeline of agent work, meetings, replies, and cancellations.", source: "PayPal - Jon Wilson" },
-      { text: "New toolkit would be helpful if they transfer to service agent configuration but might not cover all future analytics use cases, suggesting a potential gap.", source: "Hard Rock - Elizabeth DeWeese" }
+      { text: "New toolkit would be helpful if they transfer to service agent configuration but might not cover all future analytics use cases, suggesting a potential gap.", source: "Hard Rock - Elizabeth DeWeese" },
+      { text: "Customization is super important for us. We would love for our strategic KPI set to be included as out-of-the-box concepts in observability. The current out-of-box dashboards are not customizable.", source: "Help Agent - Zachary Stauber" },
+      { text: "We generally have view-only access to Tableau dashboards because only IT teams have editor-level access in production environments. This is a co-development challenge we're trying to overcome.", source: "Help Agent - Zachary Stauber" }
     ],
     examples: [
       "eToro: Cannot edit locked calculated fields in Agent for Studio",
@@ -216,6 +219,8 @@ export const painPointsData = [
       "FDE Team: Need Tableau Next Plus license just to customize ranges",
       "PayPal: Need custom 'lead nurturing dashboard' for pipeline, meetings, replies, cancellations",
       "Hard Rock: Concerned analytics 2.0 may not cover all future use cases after migration",
+      "Help Agent: Latency is critical but not visible in aggregate dashboard view - only available per session in optimization tab",
+      "Help Agent: Cannot integrate usage data and other scorecard elements into one consistent overview dashboard",
       "No date range filtering for historical analysis"
     ]
   },
@@ -343,13 +348,18 @@ export const painPointsData = [
     quotes: [
       { text: "What did the retriever return? The planner reasoning is completely hidden.", source: "Help Agent" },
       { text: "Cannot see which knowledge articles were retrieved.", source: "Indeed" },
-      { text: "Key components (Retriever, Planner) are black boxes.", source: "Analysis" }
+      { text: "Key components (Retriever, Planner) are black boxes.", source: "Analysis" },
+      { text: "We have zero insight into when the planner selects a topic - we have no rationale information about why that was there. What is the reasoning that you selected this topic? What is the reasoning that you selected this action?", source: "Help Agent - Zachary Stauber" },
+      { text: "We frequently experience ungrounded answers and off-topic selection with no insight into the rationale from the planner service. We need the reasoning from the planner to surface why we did everything.", source: "Help Agent - Zachary Stauber" }
     ],
     examples: [
       "Cannot see which knowledge articles were retrieved",
       "Planner/reasoning steps are not exposed in UI",
       "No visibility into why agent chose specific action",
-      "Retriever and Planner logic completely opaque"
+      "Retriever and Planner logic completely opaque",
+      "Help Agent: Must manually copy JSON from session tracing and use Slackbot to translate and extract article URL/title/chunk metadata",
+      "Help Agent: Need aggregated view of content used for bad experiences to support content teams in cleanup and deduplication",
+      "Help Agent: No way to see at scale which chunks/articles are indicating usual failures"
     ]
   },
   {
@@ -466,7 +476,10 @@ export const painPointsData = [
       { text: "Yana expressed the need for product-based tagging per messaging session.", source: "NVIDIA" },
       { text: "Custom tagging would support tagging competitors, product mentions, sentiment (0-5).", source: "FDE Team - Itay Oren" },
       { text: "We need the ability to set up custom LLM evaluations on session data - define our own resolution and abandonment definitions.", source: "Shark Ninja - Nir Tzavchon" },
-      { text: "Customer has strong interest in an 'evaluation agent' to monitor the SDR agent and report on its effectiveness.", source: "PayPal - Nathalie Sautner" }
+      { text: "Customer has strong interest in an 'evaluation agent' to monitor the SDR agent and report on its effectiveness.", source: "PayPal - Nathalie Sautner" },
+      { text: "Hell yes - we would like to see a metric for semantic scores in the dashboard. We use binary pass/fail based on three attributes: correct, complete, and relevant.", source: "Help Agent - Maya Robles-Wong" },
+      { text: "Having the ability to insert our semantic logic automatically into observability and view the results analytically would be supremely powerful. We would be able to see that trending, dive into those specific things, and click through to where we want to go.", source: "Help Agent - Zachary Stauber" },
+      { text: "The top three focus areas: ability to define custom tags and measurements (both formula and semantic), ability to customize the dashboards, and establishing an alert system based on custom and out-of-the-box metrics.", source: "Help Agent - Maor Pichadze" }
     ],
     examples: [
       "Cannot flag sessions as 'bug', 'needs review', or 'resolved'",
@@ -474,6 +487,10 @@ export const painPointsData = [
       "FDE Team: 'Unified Evals' / 'Agent Force Evals' in development",
       "Shark Ninja: Want custom call containment definitions",
       "PayPal: Strong interest in evaluation agent to monitor SDR agent effectiveness",
+      "Help Agent: Semantic evaluation (correctness, completeness, relevance) lives in Google spreadsheet with 2-4 week analysis lag",
+      "Help Agent: Cannot see semantic scores trending in dashboard - must manually download reports and analyze",
+      "Help Agent: Need to connect semantic evaluation layer with technical performance layer automatically",
+      "Help Agent: Team of 10 evaluating 320K conversations/month, scaling to 2.1M/month with no additional staffing",
       "No annotation capability for adding context notes"
     ]
   },
@@ -490,7 +507,8 @@ export const painPointsData = [
     quotes: [
       { text: "Need for a 'what if' analysis capability to simulate the impact of changes.", source: "Help Agent" },
       { text: "Score → Classify → Root Cause → Simulate Fix - this is the north star workflow.", source: "Lululemon - Erez Agami" },
-      { text: "Need real-time consumption analysis during development - like a debug log for credits.", source: "Allegis - Barry" }
+      { text: "Need real-time consumption analysis during development - like a debug log for credits.", source: "Allegis - Barry" },
+      { text: "We're currently two to four weeks behind in analyzing utterance performance, which makes it challenging to track month-over-month changes or quickly connect failures to specific cloud products. Due to SAFE Agile methodology, addressing a trending challenge can take about a quarter.", source: "Help Agent - Maya Robles-Wong & Zachary Stauber" }
     ],
     examples: [
       "Cannot test token count changes before deploy",
@@ -534,7 +552,9 @@ export const painPointsData = [
     roadmap: null,
     quotes: [
       { text: "Metrics are just numbers without context. What do I do with a 65% score?", source: "Help Agent" },
-      { text: "No 'Call to Action' buttons to trigger workflows from metrics.", source: "Analysis" }
+      { text: "No 'Call to Action' buttons to trigger workflows from metrics.", source: "Analysis" },
+      { text: "We need an alert system based on custom and out-of-the-box metrics. If there's a degradation in semantic scores, we should get an email or PagerDuty webhook or Slack message proactively.", source: "Help Agent - Maor Pichadze" },
+      { text: "Today we use Graphana for proactive alerts - synthetic testing every 15 minutes against known good answers using RAGAS metrics. If faithfulness falls below threshold twice in a row, it sends an alert to Slack channel triggering PagerDuty to engineering teams.", source: "Help Agent - Zachary Stauber" }
     ],
     examples: [
       "See low deflection but no button to 'Review Failed Sessions'",
@@ -605,12 +625,30 @@ export const customersData = [
     id: 'help-agent',
     name: 'Help Agent',
     color: 'cyan',
-    tagline: 'Salesforce Internal',
-    description: 'Scaling observability from 250K/week to 2M/month conversations',
-    metrics: ['250K → 2M Scale', 'LLM as Judge', 'Synthetic Testing'],
+    tagline: 'Salesforce Internal Customer-Facing Agent',
+    description: 'Customer-facing agent resolving customer issues for 18+ months. Struggling with limited customization, view-only Tableau access, and 2-4 week lag in semantic evaluation analysis. Scaling from 320K to 2.1M conversations/month with 10-person evaluation team. Critical need for custom semantic metrics (correctness, completeness, relevance), dashboard customization, and proactive alerting.',
+    metrics: ['320K → 2.1M Scale', '2-4 Week Analysis Lag', 'Custom Semantic Metrics', '200K+ Knowledge Articles', '18 Months Live'],
     workflowUrl: '?view=help-agent-workflow',
     uxUrl: '?view=help-agent-ux',
-    date: 'Dec 15, 2025'
+    date: 'Jan 28, 2026',
+    quotes: [
+      { text: "None of these out-of-box metrics are very helpful for us today.", source: "Zachary Stauber" },
+      { text: "Customization is super important for us. We would love for our strategic KPI set to be included as out-of-the-box concepts in observability.", source: "Zachary Stauber" },
+      { text: "We are at least two to four weeks behind in analyzing utterance performance, which makes it challenging to track month-over-month changes.", source: "Maya Robles-Wong" },
+      { text: "Hell yes - we would like to see a metric for semantic scores in the dashboard.", source: "Maya Robles-Wong" },
+      { text: "Having the ability to insert our semantic logic automatically into observability and view the results analytically would be supremely powerful.", source: "Zachary Stauber" },
+      { text: "We have zero insight into when the planner selects a topic - we have no rationale information about why that was there.", source: "Zachary Stauber" },
+      { text: "Semantic metrics are probably the better starting point for new implementations - we missed opportunities by not understanding semantic data points early on.", source: "Zachary Stauber" },
+      { text: "The out-of-box escalation rate is misleading - it only counts live chat transfer, missing asynchronous case creation. Our real escalation rate is ~30%, not 7%.", source: "Zachary Stauber" }
+    ],
+    painPoints: [
+      'Irrelevant Out-of-Box Metrics',
+      'Dashboard Customization Limitations',
+      'Key Components are Black Boxes',
+      'Custom Tagging & Evaluation is Essential',
+      'Missing What If Analysis',
+      'No Call to Action Features'
+    ]
   },
   {
     id: 'cellebrite',
