@@ -86,6 +86,14 @@ function App() {
 
   // Check URL for special views
   React.useEffect(() => {
+    // Handle GitHub Pages base path
+    const basePath = '/agentforce-analytics';
+    if (window.location.pathname.startsWith(basePath) && window.location.pathname !== basePath + '/') {
+      const newPath = basePath + '/' + window.location.pathname.replace(basePath, '');
+      if (window.location.pathname !== newPath) {
+        window.history.replaceState({}, '', newPath + window.location.search + window.location.hash);
+      }
+    }
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('view') === 'soma') {
       setShowSomaVisualizer(true);
