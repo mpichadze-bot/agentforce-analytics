@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/agentforce-analytics/static/css/main.3b90fb13.css",
-    "main.js": "/agentforce-analytics/static/js/main.383bc331.js",
+    "main.js": "/agentforce-analytics/static/js/main.a9dd27d8.js",
     "index.html": "/agentforce-analytics/index.html",
     "main.3b90fb13.css.map": "/agentforce-analytics/static/css/main.3b90fb13.css.map",
-    "main.383bc331.js.map": "/agentforce-analytics/static/js/main.383bc331.js.map"
+    "main.a9dd27d8.js.map": "/agentforce-analytics/static/js/main.a9dd27d8.js.map"
   },
   "entrypoints": [
     "static/css/main.3b90fb13.css",
-    "static/js/main.383bc331.js"
+    "static/js/main.a9dd27d8.js"
   ]
 }
