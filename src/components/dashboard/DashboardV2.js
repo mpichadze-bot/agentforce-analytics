@@ -160,7 +160,7 @@ const DashboardV2 = () => {
               />
             </div>
             <a
-              href={`${process.env.PUBLIC_URL || ''}/personas.html`}
+              href={process.env.NODE_ENV === 'production' ? '/agentforce-analytics/personas.html' : '/personas.html'}
               target="_blank"
               rel="noopener noreferrer"
               style={{
