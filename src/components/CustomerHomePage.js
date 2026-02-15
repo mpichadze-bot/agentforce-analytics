@@ -4,7 +4,8 @@ import {
   Activity, Eye, ArrowRight, BarChart3, Users, Zap, ChevronRight, Music, GraduationCap,
   TrendingUp, Target, Shield, MessageSquare, AlertTriangle, MessageCircle, UserCheck,
   FileSpreadsheet, Settings, EyeOff, BarChart, Database, ChevronDown, ChevronUp, Quote,
-  Calculator, Filter, Search, PieChart, FlaskConical, ClipboardCheck, Sparkles, Server, Cpu
+  Calculator, Filter, Search, PieChart, FlaskConical, ClipboardCheck, Sparkles, Server, Cpu,
+  UserCircle
 } from 'lucide-react';
 import { painPointsData, customersData } from '../data/dashboardData';
 import './CustomerHomePage.css';
@@ -112,6 +113,34 @@ const CustomerHomePage = () => {
             <Target size={18} />
             <span>Dec 2025</span>
           </div>
+          <a
+            href={`${process.env.PUBLIC_URL || ''}/personas.html`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="stat-item personas-link"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              textDecoration: 'none',
+              color: 'inherit',
+              padding: '8px 16px',
+              borderRadius: '8px',
+              transition: 'all 0.2s ease',
+              cursor: 'pointer'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
+              e.currentTarget.style.color = '#22d3ee';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = 'transparent';
+              e.currentTarget.style.color = 'inherit';
+            }}
+          >
+            <UserCircle size={18} />
+            <span>Personas</span>
+          </a>
         </div>
       </header>
 

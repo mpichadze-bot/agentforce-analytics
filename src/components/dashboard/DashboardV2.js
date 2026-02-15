@@ -160,7 +160,7 @@ const DashboardV2 = () => {
               />
             </div>
             <a
-              href="/personas.html"
+              href={`${process.env.PUBLIC_URL || ''}/personas.html`}
               target="_blank"
               rel="noopener noreferrer"
               style={{
